@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { TooltipProvider } from "@/components/ui/tooltip"
+
 
 export const metadata: Metadata = {
   title: {
@@ -19,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-poppins antialiased">
-        <Header />
-        {children}
-        <Footer />
+        <TooltipProvider>
+          <Header />
+          {children}
+          <Footer />
+        </TooltipProvider>
       </body>
     </html>
   );
