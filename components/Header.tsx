@@ -6,9 +6,15 @@ import Carticon from "@/components/Carticon";
 import Favicon from "@/components/Favicon";
 import Login from "@/components/Login";
 import Mobilemenu from "@/components/Mobilemenu";
+import { ClerkLoaded, SignedIn, UserButton } from "@clerk/nextjs";
+import { currentUser } from '@clerk/nextjs/server'
+import { User } from "lucide-react";
 
 
-const Header = () => {
+const Header = async () => {
+
+    const user = await currentUser();
+
     return (
         <header className="bg-white py-5 border-b-2">
             <Container className="flex justify-between items-center">
@@ -21,7 +27,15 @@ const Header = () => {
                     <Searchbar />
                     <Carticon />
                     <Favicon />
-                    <Login />
+                    {/* Here ClerkLoaded means that load the Login btn when clerk is loaded behind the scences */}
+                    <ClerkLoaded>
+                        {/* If user SignedIn then show a UserButton coming from Clerk.*/}
+                        <SignedIn>
+                            <UserButton />
+                        </SignedIn>
+                        {/* Here if There's no active User then show the Login Component. If there's an activer User then show the UserButton. */}
+                        {!user && <Login />}
+                    </ClerkLoaded>
                 </div>
             </Container>
         </header>
