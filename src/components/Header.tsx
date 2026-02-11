@@ -1,14 +1,13 @@
-import Container from "@/components/Container";
-import Logo from "@/components/Logo";
-import HeaderMenu from "@/components/HeaderMenu";
-import Searchbar from "@/components/Searchbar";
-import Carticon from "@/components/Carticon";
-import Favicon from "@/components/Favicon";
-import Login from "@/components/Login";
-import Mobilemenu from "@/components/Mobilemenu";
+import Container from "@/src/components/Container";
+import Logo from "@/src/components/Logo";
+import HeaderMenu from "@/src/components/HeaderMenu";
+import Searchbar from "@/src/components/Searchbar";
+import Carticon from "@/src/components/Carticon";
+import Favicon from "@/src/components/Favicon";
+import Login from "@/src/components/Login";
+import Mobilemenu from "@/src/components/Mobilemenu";
 import { ClerkLoaded, SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from '@clerk/nextjs/server'
-import { User } from "lucide-react";
 
 
 const Header = async () => {
@@ -16,7 +15,7 @@ const Header = async () => {
     const user = await currentUser();
 
     return (
-        <header className="bg-white py-5 border-b-2">
+        <header className="py-5">
             <Container className="flex justify-between items-center">
                 <div className="w-auto md:w-1/3 flex justify-start items-center gap-2.5 md:gap-0">
                     <Mobilemenu />

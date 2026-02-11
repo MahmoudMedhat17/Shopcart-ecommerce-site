@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { TooltipProvider } from "@/components/ui/tooltip"
+import Header from "@/src/components/Header";
+import Footer from "@/src/components/Footer";
+import { TooltipProvider } from "@/src/components/ui/tooltip"
 import { ClerkProvider } from '@clerk/nextjs'
 
 
@@ -24,9 +24,13 @@ export default function RootLayout({
       <html lang="en">
         <body className="font-poppins antialiased">
           <TooltipProvider>
-            <Header />
-            {children}
-            <Footer />
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main className="flex-1 bg-red-500">
+                {children}
+              </main>
+              <Footer />
+            </div>
           </TooltipProvider>
         </body>
       </html>

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/src/lib/utils"
 import Link from "next/link"
 
 const Logo = ({ className, logoDesign }: { className?: string, logoDesign?: string }) => {

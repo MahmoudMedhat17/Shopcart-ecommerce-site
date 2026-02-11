@@ -1,9 +1,9 @@
-import { socialMediaLinks } from "@/constants/data";
+import { socialMediaLinks } from "@/src/constants/data";
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/src/components/ui/tooltip";
 import Link from "next/link";
 
 const Socials = () => {

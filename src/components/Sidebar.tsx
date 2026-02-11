@@ -1,22 +1,22 @@
 
-import { headerMenuData } from "@/constants/data";
+import { headerMenuData } from "@/src/constants/data";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Logo from "@/components/Logo";
+import Logo from "@/src/components/Logo";
 import { X } from "lucide-react";
-import Socials from "@/components/Socials";
-import useClickOutside from "@/hooks/useClickOutside";
+import Socials from "@/src/components/Socials";
+import useClickOutside from "@/src/hooks/useClickOutside";
 
 // Here the Sidebar comp. accepts the passed props from the MobileMenu comp.
 interface sideBarProps {
     isOpen: boolean;
-    onClose: () => void;
+    onSideBarClose: () => void;
 }
 
-const Sidebar = ({ isOpen, onClose }: sideBarProps) => {
+const Sidebar = ({ isOpen, onSideBarClose }: sideBarProps) => {
 
     const pathName = usePathname();
-    const sideBarRef = useClickOutside(onClose) as React.RefObject<HTMLDivElement>;
+    const sideBarRef = useClickOutside(onSideBarClose) as React.RefObject<HTMLDivElement>;
 
     return (
         // This div is the background of the sidebar with shadow and slightly colored black background
@@ -26,7 +26,7 @@ const Sidebar = ({ isOpen, onClose }: sideBarProps) => {
                 {/* This div includes the Logo and The X button that closes the sidebar. */}
                 <div className="flex justify-between items-center">
                     <Logo className="text-white" logoDesign="group-hover:text-white" />
-                    <button onClick={onClose} className="hover:text-shop-light-green hoverEffect"><X /></button>
+                    <button onClick={onSideBarClose} className="hover:text-shop-light-green hoverEffect"><X /></button>
                 </div>
                 {/* This div contains all the data of the Links of the Sidebar. */}
                 <div className="space-y-2">

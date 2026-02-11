@@ -1,6 +1,6 @@
 "use client";
 
-import { headerMenuData } from "@/constants/data";
+import { headerMenuData } from "@/src/constants/data";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 

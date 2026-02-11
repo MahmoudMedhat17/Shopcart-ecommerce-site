@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/src/components/Sidebar";
 import { AlignLeft } from "lucide-react";
 
 
@@ -23,7 +23,7 @@ const Mobilemenu = () => {
       <AlignLeft onClick={handelOpenSideBar} className="w-5 h-5 hover:text-darkColor cursor-pointer md:hidden" />
       {/* We passing the sideBarOpen state and handleCloseSideBar as props to Sidebar component so we can control the sidebar there. */}
       <div className="md:hidden">
-        <Sidebar isOpen={sideBarOpen} onClose={handelCloseSideBar} />
+        <Sidebar isOpen={sideBarOpen} onSideBarClose={handelCloseSideBar} />
       </div>
     </>
   )
