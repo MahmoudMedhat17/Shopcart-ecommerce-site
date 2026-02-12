@@ -1,11 +1,13 @@
 import Container from "@/src/components/Container";
-// Need to create the footer top and bottom.
+import Topfooter from "@/src/components/Topfooter";
+import Bottomfooter from "@/src/components/Bottomfooter";
 
 const Footer = () => {
     return (
         <footer>
             <Container>
-                Footer
+                <Topfooter />
+                <Bottomfooter />
             </Container>
         </footer>
     )

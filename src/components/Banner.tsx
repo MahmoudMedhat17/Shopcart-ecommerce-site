@@ -1,4 +1,4 @@
-import Title from "@/src/components/Text";
+import { Title } from "@/src/components/Text";
 import Button from "@/src/components/Button";
 import { bannerOne } from "@/images";
 import Image from "next/image";

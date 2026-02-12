@@ -7,6 +7,15 @@ const Title = ({ children, className }: { children: ReactNode, className?: strin
             {children}
         </h2>
     )
-}
+};
 
-export default Title;
+
+const SubText = ({ children, className }: { children: ReactNode, className?: string }) => {
+    return (
+        <p className={cn("text-sm text-gray-600", className)}>
+            {children}
+        </p>
+    )
+};
+
+export { Title, SubText };

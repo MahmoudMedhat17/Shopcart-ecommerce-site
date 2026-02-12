@@ -26,9 +26,9 @@ export default function RootLayout({
           <TooltipProvider>
             <div className="flex flex-col min-h-screen">
               <Header />
-              <main className="flex-1 bg-red-500">
-                {children}
-              </main>
+              {/* <main className="flex-1 bg-red-500"> */}
+              {children}
+              {/* </main> */}
               <Footer />
             </div>
           </TooltipProvider>
