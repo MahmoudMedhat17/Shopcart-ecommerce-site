@@ -34,7 +34,7 @@ function TooltipContent({
   className,
   sideOffset = 0,
   children,
-  toolTipClassName,
+  // toolTipClassName,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Content>) {
   return (
