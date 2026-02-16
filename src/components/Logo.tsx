@@ -1,5 +1,5 @@
-import { cn } from "@/src/lib/utils"
-import Link from "next/link"
+import { cn } from "@/src/lib/utils";
+import Link from "next/link";
 
 const Logo = ({ className, logoDesign }: { className?: string, logoDesign?: string }) => {
     return <Link href="/" className="inline-flex">
@@ -7,6 +7,6 @@ const Logo = ({ className, logoDesign }: { className?: string, logoDesign?: stri
             Shopcar<span className={cn("text-shop-light-green group-hover:text-shop-dark-green hoverEffect", logoDesign)}>t</span>
         </h2>
     </Link>
-}
+};
 
-export default Logo
+export default Logo;
