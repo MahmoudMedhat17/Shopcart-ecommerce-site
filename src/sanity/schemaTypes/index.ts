@@ -4,6 +4,9 @@ import { addressSchema } from "@/src/sanity/schemaTypes/addressSchema";
 import { authorSchema } from "@/src/sanity/schemaTypes/authorSchema";
 import { blockContentSchema } from "@/src/sanity/schemaTypes/blockContentSchema";
 import { blogCategorySchema } from "@/src/sanity/schemaTypes/blogCategorySchema";
+import { blogSchema } from "@/src/sanity/schemaTypes/blogSchema";
+import { brandSchema } from "@/src/sanity/schemaTypes/brandSchema";
+import { productSchema } from "@/src/sanity/schemaTypes/productSchema";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -12,5 +15,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     authorSchema,
     blockContentSchema,
     blogCategorySchema,
+    blogSchema,
+    brandSchema,
+    productSchema,
   ],
 };
