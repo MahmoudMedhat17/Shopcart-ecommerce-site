@@ -101,21 +101,18 @@ export const categoriesData = [
   { title: "gadget accessories", href: "gadget-accessories" },
 ];
 
+// We could fetch the categoryTypes from Sanity CMS since it's defined there as a field but defining it here as an array of objects more simple.
 export const categoryTypes = [
   {
     title: "Gadget",
-    value: "gadget",
   },
   {
     title: "Appliances",
-    value: "appliances",
   },
   {
     title: "Refrigerators",
-    value: "refrigerators",
   },
   {
     title: "Others",
-    value: "others",
   },
 ];

@@ -3,21 +3,21 @@ import { categoryTypes } from "@/src/constants/data";
 import { Button } from "@/src/components/ui/button";
 
 // Here we get the props coming from the ProductsGrid component of the state selectedCategory.
-interface CategorySelectionprops {
+interface CategorySelectionProps {
   selectedCategory: string;
-  onCategorySelect: (cat: string) => void;
+  setSelectedCategory: (cat: string) => void;
 }
 
 const CategorySelection = ({
   selectedCategory,
-  onCategorySelect,
-}: CategorySelectionprops) => {
-  console.log(selectedCategory);
-  console.log(categoryTypes.map((item) => item.title));
+  setSelectedCategory,
+}: CategorySelectionProps) => {
+  // console.log(selectedCategory);
+  // console.log(categoryTypes.map((item) => item.title));
 
   //   Here we make the onCategorySelect in a function so we can call it inside a onClick and make the code look more readable.
   const handleCategoriesSelection = (category: string) => {
-    onCategorySelect(category);
+    setSelectedCategory(category);
   };
 
   return (

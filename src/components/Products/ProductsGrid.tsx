@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { client } from "@/src/sanity/lib/client";
 import CategorySelection from "@/src/components/Products/CategorySelection";
 import { categoryTypes } from "@/src/constants/data";
+import LoadingComponent from "@/src/components/LoadingComponent";
+import NoProducts from "@/src/components/Products/NoProducts";
 
 const ProductsGrid = () => {
   // State to handle the loading state of the data.
@@ -14,12 +17,59 @@ const ProductsGrid = () => {
     categoryTypes[0]?.title || "",
   );
 
+  console.log("products:", products);
+
+  // Here we get the query we wrote in sanity studio => It means we want all the docs of type product and it's variant is = to the array of variants ["gadget", "appliances", "refrigerators", "others"] and the order with name is descending also we want to get all the data with rest operator and we want to get from the categories only the title of the category.
+  const query = `*[_type == "product" && variant == $variant] 
+| order(name desc)
+{
+  ..., 
+  "categories": categories[]-> title;jl
+}`;
+
+  // Here is the params that will be passed when fetching data from sanity along with the query and we used the selectedCategory that contains the title values from categoryTypes and changed it to toLowerCase() so the data fetching work since the variant defined in sanity studio with lowerCase.
+  const params = { variant: selectedCategory.toLocaleLowerCase() };
+
+  useEffect(() => {
+    const fetchSanityData = async () => {
+      try {
+        // Here we set the loading state to true so it appears when the data is called.
+        setLoading(true);
+        // Here we fetch the data stored in sanity studio via client coming from sanity. and we pass the query we defined and the params of the $variant related to the query.
+        const res = await client.fetch(query, params);
+        console.log(`${params.variant} data:`, res);
+        // Here we set the state of the products with the data.
+        setProducts(res);
+      } catch (error) {
+        console.log("Error during fetching products data:", error);
+      } finally {
+        // Here after loading the data we set the state of loading to false again since the data is loaded already.
+        setLoading(false);
+      }
+    };
+
+    // Heree we call the function to work.
+    fetchSanityData();
+    // Dependency of the useEffect depends on the selectedCategory state so this effect triggers whenever the category is changed by the user and so is the data.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategory]);
+
   return (
     <div>
       <CategorySelection
         selectedCategory={selectedCategory}
-        onCategorySelect={setSelectedCategory}
+        setSelectedCategory={setSelectedCategory}
       />
+      {!loading ? (
+        <LoadingComponent />
+      ) : products.length ? (
+        // Need to map over the Products state to show the products in a different component "Product Card"
+        <>Products</>
+      ) : (
+        <>
+          <NoProducts selectedCategory={selectedCategory} />
+        </>
+      )}
     </div>
   );
 };
