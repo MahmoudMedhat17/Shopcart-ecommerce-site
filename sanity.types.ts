@@ -35,8 +35,8 @@ export type Product = {
     _type: "image";
     _key: string;
   }>;
-  price?: number;
-  discount?: number;
+  price: number;
+  discount: number;
   categories: Array<{
     _ref: string;
     _type: "reference";

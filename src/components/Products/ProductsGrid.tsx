@@ -66,12 +66,11 @@ const ProductsGrid = () => {
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
-      {/* Waslt fe video li 4 hrs w 18 min. + Need to work on the ProductCards*/}
       {loading ? (
         <LoadingComponent />
       ) : products.length ? (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 mt-10">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 mt-10">
             {products.map((product) => (
               <AnimatePresence key={product._id}>
                 <motion.div
