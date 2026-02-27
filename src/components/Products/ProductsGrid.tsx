@@ -20,21 +20,20 @@ const ProductsGrid = () => {
     categoryTypes[0]?.title || "",
   );
 
-  console.log("products:", products);
-
   // Here we get the query we wrote in sanity studio => It means we want all the docs of type product and it's variant is = to the array of variants ["gadget", "appliances", "refrigerators", "others"] and the order with name is descending also we want to get all the data with rest operator and we want to get from the categories only the title of the category.
-  const query = `*[_type == "product" && variant == "gadget"] 
+  const query = `*[_type == "product" && variant == $variant] 
 | order(name desc)
 {
+
   ..., "categories": categories[]-> {
     _id,
     title,
-    categories[0]
+    categories
   }
 }`;
 
   // Here is the params that will be passed when fetching data from sanity along with the query and we used the selectedCategory that contains the title values from categoryTypes and changed it to toLowerCase() so the data fetching work since the variant defined in sanity studio with lowerCase.
-  const params = { variant: selectedCategory.toLocaleLowerCase() };
+  const params = { variant: selectedCategory.toLowerCase() };
 
   useEffect(() => {
     const fetchSanityData = async () => {

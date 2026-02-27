@@ -45,7 +45,7 @@ export type Product = {
     title: string;
     [internalGroqTypeReferenceTo]?: "Category";
   }>;
-  stock?: number;
+  stock: number;
   brand?: {
     _ref: string;
     _type: "reference";

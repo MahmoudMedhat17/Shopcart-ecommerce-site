@@ -1,17 +1,15 @@
-import { Product } from "@/sanity.types";
-import { urlFor } from "@/src/sanity/lib/image";
 import Image from "next/image";
 import Link from "next/link";
+import { Product } from "@/sanity.types";
+import { urlFor } from "@/src/sanity/lib/image";
 import { Title } from "@/src/components/Text";
-import { Flame, Heart, StarIcon, ShoppingBag, Minus, Plus } from "lucide-react";
+import PriceView from "@/src/components/price/PriceView";
+import Addtocart from "@/src/components/Addtocart";
+import { Flame, Heart, StarIcon, Minus, Plus } from "lucide-react";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const image = urlFor(product.images[0]).url();
-  const productCategory = product.categories[0].title;
-  const originalPrice = product.price;
-  const discount = product.discount;
-  const productDiscount = (product.price * discount) / 100;
-  const finalPrice = product.price - productDiscount;
+  const productCategory = product.categories?.[0]?.title || "No category";
 
   return (
     <div>
@@ -82,28 +80,16 @@ const ProductCard = ({ product }: { product: Product }) => {
         {/* To show the stock number of each product */}
         <p>
           In Stock{" "}
-          <span className="font-semibold text-shop-dark-green/75">
-            {product.stock}
+          <span
+            className={`font-semibold  ${product.stock <= 0 ? "text-red-600" : "text-shop-dark-green/75"}`}
+          >
+            {product.stock > 0 ? product.stock : "Unavailable"}
           </span>
         </p>
 
         {/* To display the final price after the discount of each product and the original price before the discount */}
-        <p className="flex items-center gap-2">
-          <span className="text-shop-dark-green font-semibold text-lg">
-            ${finalPrice}
-          </span>
-          <span className="line-through text-gray-500 text-lg">
-            ${originalPrice}
-          </span>
-          <span className="text-sm bg-red-200 text-red-500 px-1 rounded-md">
-            {discount}%
-          </span>
-        </p>
-        <button className="flex items-center gap-2 mt-4 bg-shop-dark-green/80 hover:bg-shop-dark-green hoverEffect text-gray-100 px-5 py-2 rounded-full text-lg">
-          <ShoppingBag size={18} />
-          Add to Cart
-        </button>
-
+        <PriceView product={product} />
+        <Addtocart product={product} />
         {/* Quantity */}
         {/* <div className="flex items-center justify-between border-b border-gray-200">
           <p className="text-sm text-gray-500">Quantity</p>
