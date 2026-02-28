@@ -1,6 +1,7 @@
 import Container from "@/src/components/Container";
 import Banner from "@/src/components/Banner";
 import ProductsGrid from "@/src/components/Products/ProductsGrid";
+import PopularCategories from "@/src/components/PopularCategories/PopularCategories";
 
 const Home = () => {
   return (
@@ -9,6 +10,7 @@ const Home = () => {
       <Banner />
       <div className="py-12">
         <ProductsGrid />
+        <PopularCategories />
       </div>
     </Container>
   );

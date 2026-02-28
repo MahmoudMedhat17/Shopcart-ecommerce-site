@@ -79,7 +79,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         </div>
         {/* To show the stock number of each product */}
         <p>
-          In Stock{" "}
+          In Stock:{" "}
           <span
             className={`font-semibold  ${product.stock <= 0 ? "text-red-600" : "text-shop-dark-green/75"}`}
           >
