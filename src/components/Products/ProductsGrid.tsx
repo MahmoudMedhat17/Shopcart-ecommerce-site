@@ -21,7 +21,7 @@ const ProductsGrid = () => {
         <LoadingComponent />
       ) : products.length ? (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 mt-10">
+          <div className="grid max-[500px]:grid-cols-1 min-[501px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 mt-10">
             <AnimatePresence>
               {products.map((product) => (
                 <motion.div
