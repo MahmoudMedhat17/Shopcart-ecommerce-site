@@ -9,7 +9,7 @@ const Home = async () => {
   // console.log("Categories data:", cateData);
 
   // Test
-  console.log("PAGE EXECUTED");
+  // console.log("PAGE EXECUTED");
 
   // Need to pass cateData as props and use it to display the data in PopularCategories component.
 
@@ -19,7 +19,7 @@ const Home = async () => {
       <Banner />
       <div className="py-12">
         <ProductsGrid />
-        <PopularCategories />
+        <PopularCategories categoryData={cateData?.data} />
       </div>
     </Container>
   );

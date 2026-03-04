@@ -5,19 +5,21 @@ import { SubTitle } from "@/src/components/Text";
 import { Category } from "@/sanity.types";
 import { MoveRight } from "lucide-react";
 
-const SingleCategory = ({ popularCate }: { popularCate: Category[] }) => {
+const SingleCategory = ({ categoryData }: { categoryData: Category[] }) => {
+  // Here we get the category data coming from the SingleCategory component.
+
   return (
     <div className="grid max-[500px]:grid-cols-1 min-[501px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-content-center place-items-center gap-4 sm:gap-6 bg-shopLighterBg border  rounded-lg shadow-2xl p-4">
-      {popularCate.map((category) => {
+      {categoryData.map((category) => {
         const image = (category.image && urlFor(category.image).url()) || "";
 
         return (
           <Link
-            href={`/category/${category.slug?.current}`}
+            href={`/client/category/${category.slug?.current}`}
             key={category._id}
             className="group w-full"
           >
-            <div className="bg-white p-4 h-64 w-full  rounded-lg flex flex-col justify-center items-center space-y-4 shadow-lg group-hover:shadow-3xl group-hover:border group-hover:border-shop-dark-green hoverEffect transform origin-top group-hover:scale-105">
+            <div className="bg-white p-4 h-80 w-full  rounded-lg flex flex-col justify-center items-center space-y-4 shadow-lg group-hover:shadow-3xl group-hover:border group-hover:border-shop-dark-green hoverEffect transform origin-top group-hover:scale-105">
               <div className="bg-gray-100 rounded-lg">
                 <Image
                   src={image}
@@ -38,6 +40,9 @@ const SingleCategory = ({ popularCate }: { popularCate: Category[] }) => {
                 </span>{" "}
                 this category
               </div>
+              <span className="text-sm text-shop-dark-green font-semibold">
+                Products: {category.productCount}
+              </span>
               <div className="bg-gray-300 w-full h-2 rounded-full">
                 <div className="w-1/2 bg-linear-to-r from-shop-light-green to-shop-dark-green h-2 rounded-full" />
               </div>
