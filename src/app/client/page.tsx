@@ -1,8 +1,9 @@
 import Container from "@/src/components/Container";
 import Banner from "@/src/components/Banner";
+import { getCategories, getBrands } from "@/src/sanity/queries/query";
 import ProductsGrid from "@/src/components/Products/ProductsGrid";
 import PopularCategories from "@/src/components/PopularCategories/PopularCategories";
-import getCategories from "@/src/sanity/queries/query";
+import Brands from "@/src/components/Brands/Brands";
 
 const Home = async () => {
   const cateData = await getCategories();
@@ -11,7 +12,9 @@ const Home = async () => {
   // Test
   // console.log("PAGE EXECUTED");
 
-  // Need to pass cateData as props and use it to display the data in PopularCategories component.
+  const brandsData = await getBrands();
+
+  // console.log(brandsData);
 
   return (
     // Container is a wrapper that contains children with custom styles that are applied to the children.
@@ -20,6 +23,7 @@ const Home = async () => {
       <div className="py-12">
         <ProductsGrid />
         <PopularCategories categoryData={cateData?.data} />
+        <Brands brandsData={brandsData} />
       </div>
     </Container>
   );

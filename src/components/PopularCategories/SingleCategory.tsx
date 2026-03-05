@@ -11,6 +11,7 @@ const SingleCategory = ({ categoryData }: { categoryData: Category[] }) => {
   return (
     <div className="grid max-[500px]:grid-cols-1 min-[501px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-content-center place-items-center gap-4 sm:gap-6 bg-shopLighterBg border  rounded-lg shadow-2xl p-4">
       {categoryData.map((category) => {
+        // Here we check if the image exists or not to avoid getting an error from typescript.
         const image = (category.image && urlFor(category.image).url()) || "";
 
         return (

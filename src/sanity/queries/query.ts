@@ -1,4 +1,5 @@
 import { sanityFetch } from "../lib/live";
+import { client } from "@/src/sanity/lib/client";
 
 // This is a function to getCategories in the project depending on a specific number of categories or all the categories by cateQuantity argument.
 const getCategories = async (cateQuantity?: number) => {
@@ -31,4 +32,20 @@ const getCategories = async (cateQuantity?: number) => {
   }
 };
 
-export default getCategories;
+const getBrands = async () => {
+  try {
+    const query = `*[_type == "brand"] | order(title asc){
+    string,
+  image{
+     _type,
+    asset,
+  }
+}`;
+    const brandsData = await client.fetch(query);
+    return brandsData;
+  } catch (error) {
+    console.log("Something went wrong!", error);
+  }
+};
+
+export { getCategories, getBrands };
