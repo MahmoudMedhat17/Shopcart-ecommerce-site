@@ -35,6 +35,7 @@ const getCategories = async (cateQuantity?: number) => {
 const getBrands = async () => {
   try {
     const query = `*[_type == "brand"] | order(title asc){
+    _id,
     string,
   image{
      _type,

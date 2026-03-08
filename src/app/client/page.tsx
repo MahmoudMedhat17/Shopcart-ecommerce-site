@@ -4,6 +4,7 @@ import { getCategories, getBrands } from "@/src/sanity/queries/query";
 import ProductsGrid from "@/src/components/Products/ProductsGrid";
 import PopularCategories from "@/src/components/PopularCategories/PopularCategories";
 import Brands from "@/src/components/Brands/Brands";
+import Whyus from "@/src/components/Whyus/Whyus";
 
 const Home = async () => {
   const cateData = await getCategories();
@@ -23,6 +24,7 @@ const Home = async () => {
       <div className="py-12">
         <ProductsGrid />
         <PopularCategories categoryData={cateData?.data} />
+        <Whyus />
         <Brands brandsData={brandsData} />
       </div>
     </Container>

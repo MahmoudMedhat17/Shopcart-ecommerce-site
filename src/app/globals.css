@@ -21,6 +21,7 @@
   --color-shopLighterBg: #f1f3f8;
   --color-shopLightText: #686e7d;
   --color-shopLighterText: #ababab;
+  --color-whyUsIconsColor: #000;
 }
 
 @theme inline {
