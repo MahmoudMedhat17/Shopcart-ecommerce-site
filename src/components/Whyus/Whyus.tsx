@@ -15,7 +15,6 @@ const Whyus = () => {
         Experience the best online shopping with our commitment to quality,
         security, and exceptional service
       </SubText>
-
       <Reasons />
     </div>
   );
