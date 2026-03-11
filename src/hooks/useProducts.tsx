@@ -36,7 +36,7 @@ const useProducts = () => {
         setLoading(true);
         // Here we fetch the data stored in sanity studio via client coming from sanity. and we pass the query we defined and the params of the $variant related to the query.
         const res = await client.fetch(query, params);
-        console.log(`${params.variant} data:`, res);
+        // console.log(`${params.variant} data:`, res);
         // Here we set the state of the products with the data.
         setProducts(res);
       } catch (error) {

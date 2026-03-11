@@ -34,19 +34,37 @@ const getCategories = async (cateQuantity?: number) => {
 
 const getBrands = async () => {
   try {
-    const query = `*[_type == "brand"] | order(title asc){
+    // Here we fetch the brand data with ascending order according to the title of the brand and the id, string, slug, image of each brand.
+    const brandsQuery = `*[_type == "brand"] | order(title asc){
     _id,
     string,
+    slug,
   image{
      _type,
     asset,
   }
 }`;
-    const brandsData = await client.fetch(query);
+    const brandsData = await client.fetch(brandsQuery);
     return brandsData;
   } catch (error) {
     console.log("Something went wrong!", error);
   }
 };
 
-export { getCategories, getBrands };
+const getBlogs = async () => {
+  try {
+    const blogsQuery = `*[_type == "blog" && isLatest == true] | order(title asc){
+  ...,
+  blogcategories[]->{
+    title
+  }
+}`;
+
+    const blogsData = await sanityFetch({ query: blogsQuery });
+    return blogsData ?? [];
+  } catch (error) {
+    console.log("Error happened while getting the Blogs data!:", error);
+  }
+};
+
+export { getCategories, getBrands, getBlogs };

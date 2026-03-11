@@ -22,7 +22,7 @@ export type Product = {
   name?: string;
   slug?: Slug;
   description?: string;
-  images: Array<{
+  images?: Array<{
     asset?: {
       _ref: string;
       _type: "reference";
@@ -35,17 +35,16 @@ export type Product = {
     _type: "image";
     _key: string;
   }>;
-  price: number;
-  discount: number;
-  categories: Array<{
+  price?: number;
+  discount?: number;
+  categories?: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
     _key: string;
-    title: string;
     [internalGroqTypeReferenceTo]?: "Category";
   }>;
-  stock: number;
+  stock?: number;
   brand?: {
     _ref: string;
     _type: "reference";
@@ -142,6 +141,7 @@ export type Blog = {
     _type: "reference";
     _weak?: boolean;
     _key: string;
+    title?: string;
     [internalGroqTypeReferenceTo]?: "blogCategory";
   }>;
   publishedAt?: string;
@@ -268,7 +268,6 @@ export type Category = {
   description?: string;
   range?: number;
   featured?: boolean;
-  productCount?: string;
   image?: {
     asset?: {
       _ref: string;

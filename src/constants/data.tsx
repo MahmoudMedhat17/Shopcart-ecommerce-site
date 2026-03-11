@@ -356,3 +356,22 @@ export const whyUsData = [
     ],
   },
 ];
+
+export const whyUsDataTargets = [
+  {
+    number: "50K+",
+    title: "Happy Customers",
+  },
+  {
+    number: "100K+",
+    title: "Products Sold",
+  },
+  {
+    number: "99%",
+    title: "Satisfaction Rate",
+  },
+  {
+    number: "24/7",
+    title: "Customer Support",
+  },
+];

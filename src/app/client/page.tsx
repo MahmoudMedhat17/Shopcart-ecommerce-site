@@ -5,6 +5,7 @@ import ProductsGrid from "@/src/components/Products/ProductsGrid";
 import PopularCategories from "@/src/components/PopularCategories/PopularCategories";
 import Brands from "@/src/components/Brands/Brands";
 import Whyus from "@/src/components/Whyus/Whyus";
+import LatestBlogs from "@/src/components/Blogs/LatestBlogs";
 
 const Home = async () => {
   const cateData = await getCategories();
@@ -26,6 +27,7 @@ const Home = async () => {
         <PopularCategories categoryData={cateData?.data} />
         <Whyus />
         <Brands brandsData={brandsData} />
+        <LatestBlogs />
       </div>
     </Container>
   );
