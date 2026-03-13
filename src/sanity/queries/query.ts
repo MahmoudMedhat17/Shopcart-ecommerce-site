@@ -1,5 +1,6 @@
 import { sanityFetch } from "../lib/live";
 import { client } from "@/src/sanity/lib/client";
+import { Product } from "@/sanity.types";
 
 // This is a function to getCategories in the project depending on a specific number of categories or all the categories by cateQuantity argument.
 const getCategories = async (cateQuantity?: number) => {
@@ -53,6 +54,7 @@ const getBrands = async () => {
 
 const getBlogs = async () => {
   try {
+    // Here we fetch the blogs data and isLatest is equal true with ascending order according to the title of the blog and everything related to the blog data plus creating a field of blogcategories that return an that contains the title of each blog only.
     const blogsQuery = `*[_type == "blog" && isLatest == true] | order(title asc){
   ...,
   blogcategories[]->{
@@ -67,4 +69,22 @@ const getBlogs = async () => {
   }
 };
 
-export { getCategories, getBrands, getBlogs };
+const getHotDeals = async () => {
+  try {
+    // Here we fetch the products data with the hot deal status with ascending order according to the name of the each product and the whole product data with ... and creating a field of categories that return an array that contains the titles of the product only.
+    const hotdealsQuery = `
+    *[_type == 'product' && status == "hot"] | order(name asc){
+  ...,
+  "categories":categories[]->{
+    title
+  }
+}`;
+
+    const hotdealsData = await sanityFetch({ query: hotdealsQuery });
+    return hotdealsData ?? [];
+  } catch (error) {
+    console.log("Error getting hot deals data:", error);
+  }
+};
+
+export { getCategories, getBrands, getBlogs, getHotDeals };

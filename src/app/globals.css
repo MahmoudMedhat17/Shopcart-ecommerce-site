@@ -22,6 +22,9 @@
   --color-shopLightText: #686e7d;
   --color-shopLighterText: #ababab;
   --color-whyUsIconsColor: #000;
+  --color-hotDealsStatesBorderColor: #000;
+
+  --breakpoint-xs: 530px;
 }
 
 @theme inline {

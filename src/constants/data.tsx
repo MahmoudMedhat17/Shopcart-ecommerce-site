@@ -15,6 +15,10 @@ import {
   Award,
   Clock3,
   Heart,
+  Zap,
+  Star,
+  HeartIcon,
+  Clock2,
 } from "lucide-react";
 
 export const headerMenuData = [
@@ -28,7 +32,7 @@ export const headerMenuData = [
   },
   {
     title: "Blog",
-    href: "/blog",
+    href: "/client/blog",
   },
   {
     title: "Contact",
@@ -36,7 +40,7 @@ export const headerMenuData = [
   },
   {
     title: "Hot Deal",
-    href: "/deals",
+    href: "/client/deals",
   },
 ];
 
@@ -373,5 +377,32 @@ export const whyUsDataTargets = [
   {
     number: "24/7",
     title: "Customer Support",
+  },
+];
+
+export const hotDealsStates = [
+  {
+    icon: <Zap size={40} color="#D08700" />,
+    title: "Lightning Deals",
+    desc: "Flash sales with limited time offers",
+    borderColor: "#fff085",
+  },
+  {
+    icon: <Star size={40} color="#9810FA" />,
+    title: "Premium Quality",
+    desc: "Top-rated products with best reviews",
+    borderColor: "#e9d4ff",
+  },
+  {
+    icon: <HeartIcon size={40} color="#E60076" />,
+    title: "Customer Favorites",
+    desc: "Most loved items by our customers",
+    borderColor: "#fccee8",
+  },
+  {
+    icon: <Clock2 size={40} color="#E7000B" />,
+    title: "Limited Time",
+    desc: "Hurry! These deals won't last long",
+    borderColor: "#ffc9c9",
   },
 ];
