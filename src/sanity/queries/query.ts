@@ -1,6 +1,5 @@
 import { sanityFetch } from "../lib/live";
 import { client } from "@/src/sanity/lib/client";
-import { Product } from "@/sanity.types";
 
 // This is a function to getCategories in the project depending on a specific number of categories or all the categories by cateQuantity argument.
 const getCategories = async (cateQuantity?: number) => {
