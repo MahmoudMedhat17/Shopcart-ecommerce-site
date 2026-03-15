@@ -10,6 +10,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Here we make Next js to run the home page as /client when the npm run dev runs.
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/client",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

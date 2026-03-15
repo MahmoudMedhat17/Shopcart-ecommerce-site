@@ -24,7 +24,7 @@ const Home = async () => {
       <Banner />
       <div className="py-12">
         <ProductsGrid />
-        <PopularCategories categoryData={cateData?.data} />
+        <PopularCategories categoryData={cateData} />
         <Whyus />
         <Brands brandsData={brandsData} />
         <LatestBlogs />

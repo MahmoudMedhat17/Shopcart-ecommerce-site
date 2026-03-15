@@ -26,7 +26,7 @@ const getCategories = async (cateQuantity?: number) => {
       params: cateQuantity ? { cateQuantity } : {},
     });
 
-    return cateData;
+    return cateData.data ?? [];
   } catch (error) {
     console.log("Something went wrong!", error);
   }
