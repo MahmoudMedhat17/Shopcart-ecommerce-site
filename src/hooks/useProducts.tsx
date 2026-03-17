@@ -19,7 +19,8 @@ const useProducts = () => {
 | order(name desc)
 {
 
-  ..., "categories": categories[]-> {
+  ..., 
+  "categories": categories[]-> {
     _id,
     title,
     categories

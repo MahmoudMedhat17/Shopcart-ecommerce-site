@@ -6,6 +6,7 @@ import LoadingComponent from "@/src/components/LoadingComponent";
 import NoProducts from "@/src/components/Products/NoProducts";
 import ProductCard from "@/src/components/Products/ProductCard";
 import { AnimatePresence, motion } from "motion/react";
+import Link from "next/link";
 
 const ProductsGrid = () => {
   const { loading, products, selectedCategory, setSelectedCategory } =
@@ -30,7 +31,9 @@ const ProductsGrid = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <ProductCard product={product} />
+                  <Link href={`/client/products/${product.slug?.current}`}>
+                    <ProductCard product={product} />
+                  </Link>
                 </motion.div>
               ))}
             </AnimatePresence>
