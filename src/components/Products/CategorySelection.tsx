@@ -12,10 +12,9 @@ const CategorySelection = ({
   selectedCategory,
   setSelectedCategory,
 }: CategorySelectionProps) => {
-
   //   Here we make the onCategorySelect in a function so we can call it inside a onClick and make the code look more readable.
   const handleCategoriesSelection = (category: string) => {
-    setSelectedCategory();
+    setSelectedCategory(category);
   };
 
   return (

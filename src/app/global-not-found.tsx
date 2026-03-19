@@ -1,11 +1,10 @@
 // Import global styles and fonts
 import "./globals.css";
-import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 import Logo from "@/src/components/Logo";
 import Container from "../components/Container";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "404 - Page Not Found",
@@ -14,8 +13,8 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
-    <html lang="en" className={inter.className}>
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <Container>
           <div className="flex flex-col justify-center items-center min-h-screen w-fit mx-auto">
             <Logo className="text-2xl sm:text-3xl" />
@@ -30,7 +29,7 @@ export default function GlobalNotFound() {
             <div className="flex flex-col space-y-4 w-full">
               {/* Need to see if i can use Link instead of a tag here or not. */}
               <a
-                href={"/"}
+                href="/client"
                 className="text-white bg-shop-dark-green/70 hover:bg-shop-dark-green hoverEffect font-semibold py-2 px-4 rounded-lg text-center"
               >
                 Go to Shopcart&apos;s home page

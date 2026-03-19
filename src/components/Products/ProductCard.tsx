@@ -14,14 +14,17 @@ const ProductCard = ({ product }: { product: Product }) => {
   return (
     <div>
       <div className="relative group border border-darkBlue/30 p-4 rounded-md bg-gray-100 h-full">
-        <Image
-          src={image}
-          alt={`${product.name}`}
-          width={600}
-          height={500}
-          loading="lazy"
-          className="hover:scale-105 hoverEffect w-full h-56 object-contain overflow-hidden"
-        />
+        {/* Here the Link takes the user to the product page which the user clicked on. */}
+        <Link href={`/client/products/${product.slug?.current}`}>
+          <Image
+            src={image}
+            alt={`${product.name}`}
+            width={600}
+            height={500}
+            loading="lazy"
+            className="hover:scale-105 hoverEffect w-full h-56 object-contain overflow-hidden"
+          />
+        </Link>
         {/* Here if the status === "sale" then show the sale icon */}
         {product.status === "sale" && (
           <p className="absolute top-2 left-2 px-3 border border-darkColor rounded-full hoverEffect group-hover:border-shop-light-green text-sm z-10">

@@ -86,4 +86,19 @@ const getHotDeals = async () => {
   }
 };
 
-export { getCategories, getBrands, getBlogs, getHotDeals };
+const getSingleProduct = async (slug: string) => {
+  try {
+    // Here we fetch the product but with a condition of if the slug.current of the product is equal to the slug of the product of the page we inside "Coming as an argument to this function".
+    const singleProduct = `*[_type == "product" && slug.current == $slug][0]`;
+    const singleProductData = await sanityFetch({
+      query: singleProduct,
+      params: { slug: slug },
+    });
+
+    return singleProductData.data ?? [];
+  } catch (error) {
+    console.log("Failed fetching the Product data:", error);
+  }
+};
+
+export { getCategories, getBrands, getBlogs, getHotDeals, getSingleProduct };

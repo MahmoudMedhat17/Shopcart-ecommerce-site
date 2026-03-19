@@ -27,7 +27,7 @@ const Header = async () => {
           {/* Here ClerkLoaded means that load the Login btn when clerk is loaded behind the scences */}
           <ClerkLoaded>
             {/* If user SignedIn then show a UserButton coming from Clerk.*/}
-            <SignedIn>
+            <SignedIn as>
               <UserButton />
             </SignedIn>
             {/* Here if There's no active User then show the Login Component. If there's an activer User then show the UserButton. */}
