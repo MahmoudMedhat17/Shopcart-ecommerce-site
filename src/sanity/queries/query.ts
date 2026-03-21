@@ -89,7 +89,12 @@ const getHotDeals = async () => {
 const getSingleProduct = async (slug: string) => {
   try {
     // Here we fetch the product but with a condition of if the slug.current of the product is equal to the slug of the product of the page we inside "Coming as an argument to this function".
-    const singleProduct = `*[_type == "product" && slug.current == $slug][0]`;
+    const singleProduct = `*[_type == "product" && slug.current == $slug][0]{
+    ...,
+    brand->{
+    ...,
+    }
+    }`;
     const singleProductData = await sanityFetch({
       query: singleProduct,
       params: { slug: slug },
@@ -101,4 +106,26 @@ const getSingleProduct = async (slug: string) => {
   }
 };
 
-export { getCategories, getBrands, getBlogs, getHotDeals, getSingleProduct };
+const getRandomProducts = async () => {
+  try {
+    const randomDataQuery = `*[_type == "product"]`;
+    const data = await sanityFetch({ query: randomDataQuery });
+    const randomizedData = data.data
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 5);
+    // console.log(randomizedData.data);
+
+    return randomizedData.data ?? [];
+  } catch (error) {
+    console.log("Failed to fetch random products!", error);
+  }
+};
+
+export {
+  getCategories,
+  getBrands,
+  getBlogs,
+  getHotDeals,
+  getSingleProduct,
+  getRandomProducts,
+};

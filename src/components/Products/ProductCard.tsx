@@ -8,8 +8,9 @@ import Addtocart from "@/src/components/Addtocart";
 import { Flame, Heart, StarIcon, Minus, Plus } from "lucide-react";
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const image = urlFor(product.images[0]).url();
+  const image = product.images ? urlFor(product.images[0]).url() : "";
   const productCategory = product.categories?.[0]?.title || "No category";
+  const productInStock = product.stock ?? 0;
 
   return (
     <div>
@@ -84,14 +85,20 @@ const ProductCard = ({ product }: { product: Product }) => {
         <p>
           In Stock:{" "}
           <span
-            className={`font-semibold  ${product.stock <= 0 ? "text-red-600" : "text-shop-dark-green/75"}`}
+            className={`font-semibold  ${productInStock <= 0 ? "text-red-600" : "text-shop-dark-green/75"}`}
           >
-            {product.stock > 0 ? product.stock : "Unavailable"}
+            {productInStock > 0 ? product.stock : "Unavailable"}
           </span>
         </p>
 
         {/* To display the final price after the discount of each product and the original price before the discount */}
-        <PriceView product={product} />
+        <PriceView
+          product={product}
+          parentStyling="flex items-center gap-2"
+          finalPriceStyling="text-shop-dark-green font-semibold text-lg"
+          originalPriceStyling="line-through text-shopLightText text-lg"
+          discountStyling="text-sm bg-red-200 text-red-500 px-1 rounded-md"
+        />
         <Addtocart product={product} />
         {/* Quantity */}
         {/* <div className="flex items-center justify-between border-b border-gray-200">

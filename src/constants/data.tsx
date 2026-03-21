@@ -19,6 +19,7 @@ import {
   Star,
   HeartIcon,
   Clock2,
+  Shield,
 } from "lucide-react";
 
 export const headerMenuData = [
@@ -404,5 +405,23 @@ export const hotDealsStates = [
     title: "Limited Time",
     desc: "Hurry! These deals won't last long",
     borderColor: "#ffc9c9",
+  },
+];
+
+export const singleProductService = [
+  {
+    icon: <Shield className="text-shop-orange" size={35}/>,
+    title: "Secure Payment",
+    desc: "100% secure payment with SSL encryption",
+  },
+  {
+    icon: <Truck className="text-shop-orange" size={35}/>,
+    title: "Fast Delivery",
+    desc: "Free shipping on orders over $50",
+  },
+  {
+    icon: <RefreshCcw className="text-shop-orange" size={35}/>,
+    title: "Easy Returns",
+    desc: "30-day hassle-free returns",
   },
 ];
