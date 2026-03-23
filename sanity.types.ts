@@ -26,6 +26,7 @@ export type CategoryReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
+  title?: string;
   [internalGroqTypeReferenceTo]?: "Category";
 };
 

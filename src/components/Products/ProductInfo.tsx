@@ -26,7 +26,7 @@ const ProductInfo = ({ productInfo }: ProductInfoProps) => {
   return (
     <div>
       <Accordion
-        className="pt-8 border-b border-shopLighterText/50"
+        className="pt-2 sm:pt-4 md:pt-8 border-b border-shopLighterText/50"
         type="single"
         collapsible
         defaultValue="item-1"
@@ -62,20 +62,20 @@ const ProductInfo = ({ productInfo }: ProductInfoProps) => {
         </AccordionItem>
       </Accordion>
       {/* More product info */}
-      <div className="flex items-center justify-between py-8 border-b border-shopLighterText/50">
-        <div className="flex items-center gap-2 hover:text-shop-light-green hoverEffect cursor-pointer">
+      <div className="flex items-center justify-between flex-wrap gap-8 md:gap-0 py-8 border-b border-shopLighterText/50">
+        <div className="w-full xs:w-fit flex items-center gap-2 hover:text-shop-light-green hoverEffect cursor-pointer">
           <PaintBucket />
           <p className="text-sm">Compare Color</p>
         </div>
-        <div className="flex items-center gap-2 hover:text-shop-light-green hoverEffect cursor-pointer">
+        <div className="w-full xs:w-fit flex items-center gap-2 hover:text-shop-light-green hoverEffect cursor-pointer">
           <CircleQuestionMark />
           <p className="text-sm">Ask a question</p>
         </div>
-        <div className="flex items-center gap-2 hover:text-shop-light-green hoverEffect cursor-pointer">
+        <div className="w-full xs:w-fit flex items-center gap-2 hover:text-shop-light-green hoverEffect cursor-pointer">
           <Truck />
           <p className="text-sm">Delivery & Return</p>
         </div>
-        <div className="flex items-center gap-2 hover:text-shop-light-green hoverEffect cursor-pointer">
+        <div className="w-full xs:w-fit flex items-center gap-2 hover:text-shop-light-green hoverEffect cursor-pointer">
           <Share2 />
           <p className="text-sm">Share</p>
         </div>
@@ -87,9 +87,11 @@ const ProductInfo = ({ productInfo }: ProductInfoProps) => {
           <Truck className="text-shop-orange" size={35} />
           <div>
             <p className="font-semibold text-xl">Free Delivery</p>
-            <p className="text-shopLightText">
+            <p className="text-shopLightText text-sm sm:text-base lg:text-lg">
               Enter your Postal code for Delivery Availability.{" "}
-              <span>Check now</span>
+              <span className="underline hover:text-shop-light-green hoverEffect cursor-pointer">
+                Check now
+              </span>
             </p>
           </div>
         </div>
@@ -98,8 +100,11 @@ const ProductInfo = ({ productInfo }: ProductInfoProps) => {
           <CornerDownLeft className="text-shop-orange" size={35} />
           <div>
             <p className="font-semibold text-xl">Return Delivery</p>
-            <p className="text-shopLightText">
-              Free 30 days Delivery Returns. <span>Details</span>
+            <p className="text-shopLightText text-sm sm:text-base lg:text-lg">
+              Free 30 days Delivery Returns.{" "}
+              <span className="underline hover:text-shop-light-green hoverEffect cursor-pointer">
+                Details
+              </span>
             </p>
           </div>
         </div>

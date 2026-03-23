@@ -108,14 +108,22 @@ const getSingleProduct = async (slug: string) => {
 
 const getRandomProducts = async () => {
   try {
-    const randomDataQuery = `*[_type == "product"]`;
+    // Here we get the data of products from the database and assign it to randomDataQuery variable.
+    const randomDataQuery = `*[_type == "product"]{
+    ...,
+    "categories":categories[]->{
+    _id,
+    title,
+    }
+    }`;
     const data = await sanityFetch({ query: randomDataQuery });
+    // Here we randomize the data coming from the database with this sort function and slice it to 0,5 means we want only to get out of the data only 5 products.
     const randomizedData = data.data
       .sort(() => 0.5 - Math.random())
       .slice(0, 5);
-    // console.log(randomizedData.data);
+    console.log("Random Products", randomizedData);
 
-    return randomizedData.data ?? [];
+    return randomizedData || [];
   } catch (error) {
     console.log("Failed to fetch random products!", error);
   }

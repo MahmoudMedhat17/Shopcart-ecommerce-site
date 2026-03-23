@@ -23,7 +23,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             width={600}
             height={500}
             loading="lazy"
-            className="hover:scale-105 hoverEffect w-full h-56 object-contain overflow-hidden"
+            className="hover:scale-105 hoverEffect w-full h-40 sm:h-52 md:h-56 object-contain overflow-hidden"
           />
         </Link>
         {/* Here if the status === "sale" then show the sale icon */}
@@ -48,11 +48,11 @@ const ProductCard = ({ product }: { product: Product }) => {
       </div>
       <div className="p-2 space-y-2">
         {/* This to display the category of each product */}
-        <p className="text-gray-500 uppercase line-clamp-1">
+        <p className="text-gray-500 uppercase line-clamp-1 text-sm sm:text-base">
           {productCategory}
         </p>
         {/* To display the name of each product */}
-        <Title className="font-semibold text-darkColor line-clamp-1 text-base">
+        <Title className="font-semibold text-darkColor line-clamp-1 text-base sm:text-lg">
           {product.name}
         </Title>
         {/* This is a review rating style */}
