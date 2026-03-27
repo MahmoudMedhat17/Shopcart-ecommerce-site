@@ -25,11 +25,11 @@ import {
 export const headerMenuData = [
   {
     title: "Home",
-    href: "/",
+    href: "/client",
   },
   {
     title: "Shop",
-    href: "/shop",
+    href: "/client/shop",
   },
   {
     title: "Blog",
@@ -37,7 +37,7 @@ export const headerMenuData = [
   },
   {
     title: "Contact",
-    href: "/contact",
+    href: "/client/contact",
   },
   {
     title: "Hot Deal",
@@ -410,18 +410,41 @@ export const hotDealsStates = [
 
 export const singleProductService = [
   {
-    icon: <Shield className="text-shop-orange" size={35}/>,
+    icon: <Shield className="text-shop-orange" size={35} />,
     title: "Secure Payment",
     desc: "100% secure payment with SSL encryption",
   },
   {
-    icon: <Truck className="text-shop-orange" size={35}/>,
+    icon: <Truck className="text-shop-orange" size={35} />,
     title: "Fast Delivery",
     desc: "Free shipping on orders over $50",
   },
   {
-    icon: <RefreshCcw className="text-shop-orange" size={35}/>,
+    icon: <RefreshCcw className="text-shop-orange" size={35} />,
     title: "Easy Returns",
     desc: "30-day hassle-free returns",
+  },
+];
+
+export const priceList = [
+  {
+    title: "Under $100",
+    value: "Under $100",
+  },
+  {
+    title: "$100 - $200",
+    value: "$100 - $200",
+  },
+  {
+    title: "$200 - $300",
+    value: "$200 - $300",
+  },
+  {
+    title: "$300 - $500",
+    value: "$300 - $500",
+  },
+  {
+    title: "Over $500",
+    value: "Over $500",
   },
 ];

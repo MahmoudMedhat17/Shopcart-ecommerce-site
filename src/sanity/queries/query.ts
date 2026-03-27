@@ -1,5 +1,13 @@
 import { sanityFetch } from "../lib/live";
 import { client } from "@/src/sanity/lib/client";
+import {
+  BRANDS_QUERY,
+  BLOGS_QUERY,
+  HOTDEALS_QUERY,
+  SINGLEPRODUCT_QUERY,
+  RANDOMDATA_QUERY,
+  ALLPRODUCTS_QUERY,
+} from "@/src/sanity/queries/index";
 
 // This is a function to getCategories in the project depending on a specific number of categories or all the categories by cateQuantity argument.
 const getCategories = async (cateQuantity?: number) => {
@@ -35,15 +43,7 @@ const getCategories = async (cateQuantity?: number) => {
 const getBrands = async () => {
   try {
     // Here we fetch the brand data with ascending order according to the title of the brand and the id, string, slug, image of each brand.
-    const brandsQuery = `*[_type == "brand"] | order(title asc){
-    _id,
-    string,
-    slug,
-  image{
-     _type,
-    asset,
-  }
-}`;
+    const brandsQuery = BRANDS_QUERY;
     const brandsData = await client.fetch(brandsQuery);
     return brandsData;
   } catch (error) {
@@ -54,12 +54,7 @@ const getBrands = async () => {
 const getBlogs = async () => {
   try {
     // Here we fetch the blogs data and isLatest is equal true with ascending order according to the title of the blog and everything related to the blog data plus creating a field of blogcategories that return an that contains the title of each blog only.
-    const blogsQuery = `*[_type == "blog" && isLatest == true] | order(title asc){
-  ...,
-  blogcategories[]->{
-    title
-  }
-}`;
+    const blogsQuery = BLOGS_QUERY;
 
     const blogsData = await sanityFetch({ query: blogsQuery });
     return blogsData ?? [];
@@ -71,13 +66,7 @@ const getBlogs = async () => {
 const getHotDeals = async () => {
   try {
     // Here we fetch the products data with the hot deal status with ascending order according to the name of the each product and the whole product data with ... and creating a field of categories that return an array that contains the titles of the product only.
-    const hotdealsQuery = `
-    *[_type == 'product' && status == "hot"] | order(name asc){
-  ...,
-  "categories":categories[]->{
-    title
-  }
-}`;
+    const hotdealsQuery = HOTDEALS_QUERY;
 
     const hotdealsData = await sanityFetch({ query: hotdealsQuery });
     return hotdealsData ?? [];
@@ -89,12 +78,7 @@ const getHotDeals = async () => {
 const getSingleProduct = async (slug: string) => {
   try {
     // Here we fetch the product but with a condition of if the slug.current of the product is equal to the slug of the product of the page we inside "Coming as an argument to this function".
-    const singleProduct = `*[_type == "product" && slug.current == $slug][0]{
-    ...,
-    brand->{
-    ...,
-    }
-    }`;
+    const singleProduct = SINGLEPRODUCT_QUERY;
     const singleProductData = await sanityFetch({
       query: singleProduct,
       params: { slug: slug },
@@ -109,23 +93,26 @@ const getSingleProduct = async (slug: string) => {
 const getRandomProducts = async () => {
   try {
     // Here we get the data of products from the database and assign it to randomDataQuery variable.
-    const randomDataQuery = `*[_type == "product"]{
-    ...,
-    "categories":categories[]->{
-    _id,
-    title,
-    }
-    }`;
+    const randomDataQuery = RANDOMDATA_QUERY;
     const data = await sanityFetch({ query: randomDataQuery });
     // Here we randomize the data coming from the database with this sort function and slice it to 0,5 means we want only to get out of the data only 5 products.
     const randomizedData = data.data
       .sort(() => 0.5 - Math.random())
       .slice(0, 5);
-    console.log("Random Products", randomizedData);
 
     return randomizedData || [];
   } catch (error) {
     console.log("Failed to fetch random products!", error);
+  }
+};
+
+const getAllProducts = async () => {
+  try {
+    const allProducts = ALLPRODUCTS_QUERY;
+    const allProductsQuery = await sanityFetch({ query: allProducts });
+    return allProductsQuery.data ?? [];
+  } catch (error) {
+    console.log("Failed fetching All products data!:", error);
   }
 };
 
@@ -136,4 +123,5 @@ export {
   getHotDeals,
   getSingleProduct,
   getRandomProducts,
+  getAllProducts,
 };

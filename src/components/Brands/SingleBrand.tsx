@@ -14,7 +14,7 @@ const SingleBrand = ({ brandsData }: { brandsData: Brand[] }) => {
           const brandsImage = (brand.image && urlFor(brand.image).url()) || "";
           return (
             <Link
-              href={`/client/brand/${brand.slug?.current}`}
+              href={`/client/shop?brand=${brand.slug?.current}`}
               className="group"
               key={brand._id}
             >
