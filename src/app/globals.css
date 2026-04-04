@@ -24,6 +24,12 @@
   --color-shopRedColor: #f42c38;
   --color-whyUsIconsColor: #000;
   --color-hotDealsStatesBorderColor: #000;
+  --color-bgCategoryFilterColor: #dbeafe;
+  --color-bgBrandFilterColor: #dbfce7;
+  --color-bgPriceFilterColor: #f3e8ff;
+  --color-categoryFilterColor: #197bdc;
+  --color-brandFilterColor: #016830;
+  --color-priceFilterColor: #6e1ec4;
 
   --breakpoint-xs: 530px;
 }
@@ -154,4 +160,8 @@
   button {
     @apply cursor-pointer;
   }
+}
+
+html {
+  scroll-behavior: smooth;
 }

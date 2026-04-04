@@ -50,7 +50,16 @@ const ALLPRODUCTS_QUERY = defineQuery(`*[_type == "product"]`);
 // And if there's a selectedBrand then get the brand that the user selected stored inside the selectedBrand state using useSearchParams from Next JS then compare it to the slugs that exists inside the brand document, if it exists then show it.
 
 // And if there's a price bigger than the lowest range of price we set as $minPrice and a price smaller than the larget range of price we set as $maxPrice then filter by prices.
-// const FILTEREDPRODUCTS_QUERY =;
+const FILTEREDPRODUCTS_QUERY = `*[_type == "product" && (!defined($selectedCategory) || $selectedCategory == "" || $selectedCategory in categories[]-> slug.current)
+  && (!defined($selectedBrand) || $selectedBrand == "" || brand-> slug.current == $selectedBrand)
+  && (!defined($minPrice) || $minPrice == "" || price >= $minPrice)
+  && (!defined($maxPrice) || $maxPrice == "" || price <= $maxPrice)
+] | order(name asc){
+...,
+"categories":categories[]->{
+title
+} 
+}`;
 
 export {
   BRANDS_QUERY,

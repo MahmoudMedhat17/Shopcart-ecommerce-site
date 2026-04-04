@@ -46,6 +46,7 @@ const CategoryList = ({
           </div>
         ))}
       </RadioGroup>
+      {/* Here if the user filtered the data by category then show a button related to category filteration that clear the category filteration */}
       {selectedCategory && (
         <button
           className="text-sm text-left underline text-darkColor hover:text-shop-dark-green hoverEffect mt-4"

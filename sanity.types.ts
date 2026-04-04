@@ -272,6 +272,7 @@ export type Category = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  productCount?: number;
 };
 
 export type SanityImagePaletteSwatch = {

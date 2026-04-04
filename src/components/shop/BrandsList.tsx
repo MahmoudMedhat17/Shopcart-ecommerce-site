@@ -45,6 +45,7 @@ const BrandsList = ({
           </div>
         ))}
       </RadioGroup>
+      {/* Here if the user filtered the data by Brand then show a button related to Brand filteration that clear the Brand filteration */}
       {selectedBrand && (
         <button
           className="text-sm text-left underline text-darkColor hover:text-shop-dark-green hoverEffect mt-4"

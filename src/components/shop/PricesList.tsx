@@ -37,6 +37,7 @@ const PricesList = ({ selectedPrice, setSelectedPrice }: PriceListProps) => {
           </div>
         ))}
       </RadioGroup>
+      {/* Here if the user filtered the data by Price then show a button related to Price filteration that clear the Price filteration */}
       {selectedPrice && (
         <button
           className="text-sm text-left underline text-darkColor hover:text-shop-dark-green hoverEffect mt-4"

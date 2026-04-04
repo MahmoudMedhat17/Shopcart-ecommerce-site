@@ -32,7 +32,7 @@ const CategorySelection = ({
         ))}
       </div>
       <div className="mt-4 sm:mt-0">
-        <Link href={"/shop"}>
+        <Link href={"/client/shop"}>
           <Button
             className={`bg-shop-light-green/20 text-shop-dark-green text-md font-semibold rounded-full border border-shop-dark-green hover:bg-shop-light-green hover:text-white hover:border-shop-light-green hoverEffect`}
           >

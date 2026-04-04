@@ -10,9 +10,10 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { client } from "@/src/sanity/lib/client";
 import { FILTEREDPRODUCTS_QUERY } from "@/src/sanity/queries";
-import LoadingComponent from "@/src/components/LoadingComponent";
+import LoadingProduct from "@/src/components/LoadingProduct";
 import NoProducts from "@/src/components/Products/NoProducts";
 import ProductCard from "@/src/components/Products/ProductCard";
+import ScrollToTop from "@/src/lib/Scrolltotop";
 
 interface ShopProps {
   categories: Category[];
@@ -23,73 +24,122 @@ interface ShopProps {
 const Shop = ({ categories, brands, allProducts }: ShopProps) => {
   const searchParams = useSearchParams();
   const brandParams = searchParams.get("brand");
+  // We can make here the params of the category so that when the user clicks on one of the categories it chooses it as a filter in the filteration page such as the brands.
+  // const categoryParams = searchParams.get("category");
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState(allProducts);
+  // Need to make the selectedCategory when selected by the user it filters the data according to that category from the cards of the categories in the main page.
   const [selectedCategory, setSelectedCategory] = useState<string | null>("");
   const [selectedBrand, setSelectedBrand] = useState<string | null>(
     brandParams,
   );
   const [selectedPrice, setSelectedPrice] = useState<string | null>("");
 
-  //  Need to create the filteration function.
-
-  const fetchFilteredProducts = async () => {
-    // Here we set the loading state to true to fire the loading state when data is fetching -> LoadingComponent.
+  const fetchProducts = async () => {
+    // Setting the loading state to true to start the loading state when the data is called.
     setLoading(true);
+
+    // Setting a price range for min and max prices to use it in price filteration.
+    let minPrice = null;
+    let maxPrice = null;
+
     try {
-      // Here we set a price range that we need to loop through for price filteration so we set min price to 0 and the max price to 10k and we loop through between those numbers.
-      let minPrice = 0;
-      let maxPrice = 10000;
-
-      // This condition means if the user chose to filter by prices "Prices state -> selectedPrice" then do what inside the condition block.
+      // Here if the user chose filteration by price then remove the "-" and make min,max to become [min,max] and then map over them as Numbers so price range becomes [100,200] for example. After that assign min to minPrice so minPrice = 100 and max to maxPrice so maxPrice = 200 -> 100 to 200 range.
       if (selectedPrice) {
-        // Here means that assign to indexes of min and max with the selectedPrice state and split between them with "-" -> $100 - $200 and then loop between the numbers splitted with "-" so when the user choose prices between 100 and 200 for example he gets the products between those numbers like $150 for example.
         const [min, max] = selectedPrice.split("-").map(Number);
-
-        minPrice = min;
-        maxPrice = max;
+        minPrice = Number(min);
+        maxPrice = Number(max);
       }
 
-      // Here we assign filteredProducts variable with fetched data with FILTEREDPRODUCTS_QUERY query and passing the states defined in the query as an arguments to client.fetch.
-      const filteredProducts = await client.fetch(FILTEREDPRODUCTS_QUERY, {
+      // Here we fetch the data by client.fetch since we are in a client component and put the params we used in the query.
+      const filteredData = await client.fetch(FILTEREDPRODUCTS_QUERY, {
         selectedCategory,
         selectedBrand,
         minPrice,
         maxPrice,
       });
-      // Set the state of the products with the new filteredProducts Data so we can use products to loop through the data and display it.
-      console.log(filteredProducts);
 
-      setProducts(filteredProducts);
+      // Here we set the products state with the new filteredData products.
+      setProducts(filteredData);
     } catch (error) {
-      console.log("Failed fetching filtered products:", error);
+      console.log("Failed to fetch filtered data:", error);
     } finally {
+      // After finishing calling the data we set the loading state back to normal "false" as the data is already loaded.
       setLoading(false);
     }
   };
 
+  // Function that resets the states of each filteration state to clear all the filters.
+  const clearFilteration = () => {
+    setSelectedCategory("");
+    setSelectedBrand("");
+    setSelectedPrice("");
+  };
+
+  // Here we set this variable as category, brand and prices state to use it to show or hide the clear filteration button when the user select a filter to filter the products.
+  const showFilteration = selectedCategory || selectedBrand || selectedPrice;
+
+  // Here this function checks if there's showFilterButton variable then do the function inside "ScrollToTop" that scroll to top of the page when when user selects a filter.
+  if (showFilteration) {
+    ScrollToTop();
+  }
+
+  // useEffect to call the fetchProducts function and it dependencies depend on filteration states.
   useEffect(() => {
-    fetchFilteredProducts();
+    fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory, selectedBrand, selectedPrice]);
 
   return (
     <div>
-      <Container className="mt-5">
-        <div className="sticky top-0 z-10 mb-5 flex items-center flex-col md:flex-row justify-between px-6 py-4 bg-white shadow-lg rounded-lg border border-shopLighterBg">
-          <div className="space-y-3">
-            <Title className="text-darkColor text-2xl tracking-wide">
-              Shop Products
-            </Title>
-            <SubTitle className="text-base text-shopLightText font-medium">
-              Discover amazing products tailored to your needs
-            </SubTitle>
+      <Container className="my-5">
+        <div className="sticky top-0 z-10 mb-5 flex items-center flex-col justify-between px-6 py-4 bg-white shadow-lg rounded-lg border border-shopLighterBg">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between w-full">
+            <div className="space-y-3">
+              <Title className="text-darkColor text-2xl tracking-wide">
+                Shop Products
+              </Title>
+              <SubTitle className="text-base text-shopLightText font-medium">
+                Discover amazing products tailored to your needs
+              </SubTitle>
+            </div>
+            {/* Here if the user chose any filteration "showFilteration" then display a clear all filters button when clicked it removes all the filter options the user choose. */}
+            {showFilteration && (
+              <button
+                onClick={clearFilteration}
+                className="border border-shopRedColor text-shopRedColor bg-shopRedColor/10 hover:bg-shopRedColor/30 hoverEffect rounded-md px-4 py-1.5"
+              >
+                Clear All Filters
+              </button>
+            )}
           </div>
-          <button className="border border-shopRedColor text-shopRedColor bg-shopRedColor/10 hover:bg-shopRedColor/30 hoverEffect rounded-md px-4 py-1.5">
-            Clear All Filters
-          </button>
+          {/* Here if the user chose any filteration "showFilteration" then show it as below */}
+          {showFilteration && (
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4 w-full pt-8 md:pt-4">
+              <p className="text-darkColor text-sm">Active filters:</p>
+              <div className="flex items-center gap-4 flex-wrap">
+                {selectedCategory && (
+                  <p className="bg-bgCategoryFilterColor text-categoryFilterColor py-1.5 px-3 text-xs rounded-full">
+                    Category: {selectedCategory}
+                  </p>
+                )}
+                {selectedBrand && (
+                  <p className="bg-bgBrandFilterColor text-brandFilterColor py-1.5 px-3 text-xs rounded-full">
+                    Brand: {selectedBrand}
+                  </p>
+                )}
+                {selectedPrice && (
+                  <p className="bg-bgPriceFilterColor text-priceFilterColor py-1.5 px-3 text-xs rounded-full">
+                    Price: {selectedPrice}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
+
         <div className="flex flex-col md:flex-row gap-5">
-          <div className="md:sticky md:top-20 md:self-start md:min-h-[calc(100vh - 160px)] md:min-w-72 shadow-lg rounded-lg border border-shopLighterBg">
+          <div className="md:sticky md:top-20 md:self-start md:min-h-[calc(100vh - 160px)] overflow-y-auto md:min-w-72 shadow-lg rounded-lg border border-shopLighterBg">
             <div className="bg-shopLighterBg">
               <Title className="text-lg text-darkColor py-3 px-4">
                 Filters
@@ -113,11 +163,20 @@ const Shop = ({ categories, brands, allProducts }: ShopProps) => {
               setSelectedPrice={setSelectedPrice}
             />
           </div>
-          <div className="shadow-lg rounded-lg border border-shopLighterBg flex-1">
+          <div className="shadow-lg rounded-lg border border-shopLighterBg flex-1 p-4">
+            <div className="flex items-center justify-between border-b">
+              <Title className="text-lg text-darkColor">
+                {products.length} Product(s) Found
+              </Title>
+              <SubTitle className="text-lightColor font-medium">
+                Showing all available products
+              </SubTitle>
+            </div>
+            {/* If loading then show LoadingProduct component if not then check if the products data exists then map through products data and show them with ProductCard component. If there's no products data then show NoProducts component. */}
             {loading ? (
-              <LoadingComponent />
+              <LoadingProduct />
             ) : products.length > 0 ? (
-              <div className="grid max-[500px]:grid-cols-1 min-[501px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 mt-10">
+              <div className="grid max-[500px]:grid-cols-1 min-[501px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 mt-10">
                 {products.map((product) => (
                   <div key={product._id}>
                     <ProductCard product={product} />

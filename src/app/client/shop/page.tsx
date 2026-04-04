@@ -11,13 +11,13 @@ const page = async () => {
   const allProducts = await getAllProducts();
 
   return (
-    <div>
+    <>
       <Shop
         categories={categories}
         brands={brands ?? []}
         allProducts={allProducts}
       />
-    </div>
+    </>
   );
 };
 
