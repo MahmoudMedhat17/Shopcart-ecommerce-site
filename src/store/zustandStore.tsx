@@ -11,18 +11,27 @@ interface cartItems {
 // Store interface
 interface ZustandStoreProps {
   cart: cartItems[];
-  addQuantity: (product: Product) => void;
-  removeQuantity: (productId: string) => void;
+  addProduct: (product: Product) => void;
+  removeProduct: (productId: string) => void;
   deleteProduct: (productId: string) => void;
   resetCart: () => void;
   getPrice: () => number;
+  getSubTotalPrice: () => number;
+  getItemCount: (productId: string) => number;
+  getGroupedItems: () => cartItems[];
+  // Favorite part
+  favorites: Product[];
+  addFavorite: (product: Product) => void;
+  removeFavorite: (productId: string) => void;
+  toggleFavorite: (product: Product) => void;
 }
 
 const zustandStore = create<ZustandStoreProps>()(
   persist(
     (set, get) => ({
-      cart: [],
-      addQuantity: (product) => {
+      cart: [] as cartItems[],
+      favorites: [],
+      addProduct: (product) => {
         // Here we initialize the itemsInCart variable with the items data.
         const itemsInCart = get().cart;
         // Here we loop throught the items data to check if the item is already exists in the cart or not by checking the item id inside the cart and use this variable for the next condition.
@@ -47,7 +56,7 @@ const zustandStore = create<ZustandStoreProps>()(
           });
         }
       },
-      removeQuantity: (productId) =>
+      removeProduct: (productId) =>
         set((state) => ({
           // Here we map through the items inside the cart array and check the product when the user tries to decrease the quantity of a product he wants to add to cart.
           cart: state.cart.map((item) => {
@@ -79,8 +88,67 @@ const zustandStore = create<ZustandStoreProps>()(
       getPrice: () => {
         const productPrice = get().cart;
         return productPrice.reduce((totalPrice, item) => {
-          return totalPrice + (item.product.price ?? 0) * item.quantity;
+          const productQuantity = item.quantity;
+          return totalPrice + (item.product.price ?? 0) * productQuantity;
         }, 0);
+      },
+      getSubTotalPrice: () => {
+        // First we get the cart array "What is inside this array."
+        const products = get().cart;
+        // Then we loop through this cart array with reduce method
+        return products.reduce((total, item) => {
+          // We set the price of each product inside the cart in productPrice var.
+          const productPrice = item.product.price ?? 0;
+          // We set the discount of each product inside the cart in productPrice var.
+          const productDiscount = item.product.discount ?? 0;
+          // Then we calculate the discount of each product by multiplying the product price with it's discount then divide by 100%; $50 * 20%(0.20) / 100%.
+          const discount = (productPrice * productDiscount) / 100;
+          // Then the productPriceWithDiscount var assigned with the product price and it's discount after calculating it.
+          const productPriceWithDiscount = productPrice + discount;
+          // Then add this product price with discount to the total price.
+          // So when the user adds one quantity of the product this function calculate it with it's discount and add to the total and when the user adds more quantity of that product then the price of this quantity is added to the total.
+          // So when the sub total is 50$ for ex. with one quantity of the product and then the quantity becomes 2 of the same product the total will be 50$ + 50$ then total is 100$ of the same product.
+          return total + productPriceWithDiscount;
+        }, 0);
+      },
+      getItemCount: (productId: string) => {
+        // First we get the cart array "What is inside this array."
+        const product = get().cart;
+        // Here we check if the product the user selected is the same product we want to calculate it's amount if yes then do the next condition.
+        const isSameProduct = product.find(
+          (product) => product.product._id === productId,
+        );
+        // If it's confirmed the same product the user want then cal. it's amount if not then return 0.
+        return isSameProduct ? isSameProduct.quantity : 0;
+      },
+      // We get all the products inside the cart array.
+      getGroupedItems: () => get().cart,
+
+      // Here we set addFav. with all the favoriteProducts already there plus the product the user wants to add as a favorite "product".
+      addFavorite: (product) => {
+        const favoriteProducts = get().favorites;
+        set({ favorites: [...favoriteProducts, product] });
+      },
+      // Here we match the id of the product the user wants to remove from favorites.
+      // If the id matches one of the products inside the favorite cat. then the product is removed from favorites.
+      removeFavorite: (productId) => {
+        const favoriteProducts = get().favorites;
+        set({
+          favorites: favoriteProducts.filter((item) => item._id !== productId),
+        });
+      },
+      // Here in toggleFavorite function we make sure that the product the user chooses is matched with the product the user wants to add or remove from favorites.
+      // If isFavorite returns true then it means that the product is already in favorite, if it returns false then the product is not in favorite yet.
+      toggleFavorite: (product) => {
+        const favoriteProducts = get().favorites;
+        const isFavorite = favoriteProducts.some(
+          (item) => item._id === product._id,
+        );
+
+        // If the product is in favorite then remove it with removeFavorite Function and we passed the id of the product that is removed, If not then add the product via addFavorite Function and we passed the whole product object with it so it gets all of the product data.
+        return isFavorite
+          ? get().removeFavorite(product._id)
+          : get().addFavorite(product);
       },
     }),
     { name: "ecommerceStore" },
