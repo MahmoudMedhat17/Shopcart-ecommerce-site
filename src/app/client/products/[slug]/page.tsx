@@ -13,7 +13,8 @@ import RandomProducts from "@/src/components/Products/RandomProducts";
 import { singleProductService } from "@/src/constants/data";
 import Image from "next/image";
 import { urlFor } from "@/src/sanity/lib/image";
-import { Heart, StarIcon, PiggyBank } from "lucide-react";
+import { StarIcon, PiggyBank } from "lucide-react";
+import LikeIcon from "@/src/components/LikeIcon";
 
 const SingleProduct = async ({
   params,
@@ -23,19 +24,21 @@ const SingleProduct = async ({
   // Here we get the params of the current page with next js params.
   const { slug } = await params;
   // Here we assign the singleProduct variable with data of the single product.
-  const singleProduct: Product = await getSingleProduct(slug);
+  const singleProduct = (await getSingleProduct(slug)) as Product | null;
 
-  const randomizedProducts = (await getRandomProducts()) as Product[];
+  // Here a check if the product is unavailable == "No slug param at all" then show to the user the Unavailable component that contains a message to the user.
+  if (!singleProduct) {
+    return <Unavailable />;
+  }
+
+  const randomizedProducts =
+    (await getRandomProducts()) as unknown as Product[];
 
   const image = singleProduct?.images?.[0]
     ? urlFor(singleProduct.images[0]).url()
     : "";
 
   const singleProductInStock = singleProduct.stock ?? 0;
-  // Here a check if the product is unavailable == "No slug param at all" then show to the user the Unavailable component that contains a message to the user.
-  if (!singleProduct) {
-    return <Unavailable />;
-  }
 
   return (
     <div className="py-10">
@@ -120,9 +123,7 @@ const SingleProduct = async ({
                 product={singleProduct}
               />
               <div className="group shrink-0">
-                <div className="p-1.5 border border-shop-light-green rounded-md w-fit mt-2 cursor-pointer group-hover:text-shop-dark-green group-hover:border-shop-dark-green hoverEffect">
-                  <Heart className="text-shop-light-green group-hover:text-shop-dark-green hoverEffect" />
-                </div>
+                <LikeIcon singleProduct={singleProduct} />
               </div>
             </div>
 

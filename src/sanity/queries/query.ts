@@ -84,9 +84,10 @@ const getSingleProduct = async (slug: string) => {
       params: { slug: slug },
     });
 
-    return singleProductData.data ?? [];
+    return singleProductData.data || null;
   } catch (error) {
     console.log("Failed fetching the Product data:", error);
+    return null;
   }
 };
 

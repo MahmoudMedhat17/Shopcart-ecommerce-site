@@ -12,10 +12,11 @@ interface cartItems {
 interface ZustandStoreProps {
   cart: cartItems[];
   addProduct: (product: Product) => void;
-  removeProduct: (productId: string) => void;
   deleteProduct: (productId: string) => void;
+  addQuantity: (productId: string) => void;
+  removeQuantity: (productId: string) => void;
   resetCart: () => void;
-  getPrice: () => number;
+  getPrice: (productId: string) => number;
   getSubTotalPrice: () => number;
   getItemCount: (productId: string) => number;
   getGroupedItems: () => cartItems[];
@@ -34,29 +35,37 @@ const zustandStore = create<ZustandStoreProps>()(
       addProduct: (product) => {
         // Here we initialize the itemsInCart variable with the items data.
         const itemsInCart = get().cart;
+        set({
+          cart: [...itemsInCart, { product, quantity: 1 }],
+        });
+      },
+      deleteProduct: (productId) =>
+        set((state) => ({
+          // Here this state will filter the cart array from the product the user selects to delete.
+          cart: state.cart.filter((item) => item.product._id !== productId),
+        })),
+      addQuantity: (productId) => {
+        const itemsInCart = get().cart;
+
         // Here we loop throught the items data to check if the item is already exists in the cart or not by checking the item id inside the cart and use this variable for the next condition.
         const itemExists = itemsInCart.find(
-          (items) => items.product._id === product._id,
+          (item) => item.product._id === productId,
         );
 
         // If itemExists inside the cart then do the conditions
         if (itemExists) {
-          set({
+          set((state) => ({
             // Here we check if the item the user want to add more is the same item that already exists in the cart or added before, if so them add a quantity of 1 to it so it becomes 2 for example inside the cart.
-            cart: itemsInCart.map((item) =>
-              item.product._id === product._id
-                ? { ...item, quantity: item.quantity + 1 }
-                : item,
-            ),
-          });
-        } else {
-          // Else then here the item doesn't exist in the cart which means that this item will be added newly to the cart so we set the cart with the current items inside the cart already and add 1 number to the item the user added.
-          set({
-            cart: [...itemsInCart, { product, quantity: 1 }],
-          });
+            cart: state.cart.map((item) => {
+              if (item.product._id === productId) {
+                return { ...item, quantity: item.quantity + 1 };
+              }
+              return item;
+            }),
+          }));
         }
       },
-      removeProduct: (productId) =>
+      removeQuantity: (productId) =>
         set((state) => ({
           // Here we map through the items inside the cart array and check the product when the user tries to decrease the quantity of a product he wants to add to cart.
           cart: state.cart.map((item) => {
@@ -77,20 +86,20 @@ const zustandStore = create<ZustandStoreProps>()(
             }
           }),
         })),
-      deleteProduct: (productId) =>
-        set((state) => ({
-          // Here this state will filter the cart array from the product the user selects to delete.
-          cart: state.cart.filter((item) => item.product._id !== productId),
-        })),
       // Here we reset the state of the cart to empty array which equal to empty cart.
       resetCart: () => set({ cart: [] }),
       // Here we get the price of the product price and then calculate the product price multiplied by it's quantity.
-      getPrice: () => {
-        const productPrice = get().cart;
-        return productPrice.reduce((totalPrice, item) => {
-          const productQuantity = item.quantity;
-          return totalPrice + (item.product.price ?? 0) * productQuantity;
-        }, 0);
+      getPrice: (productId: string) => {
+        const product = get().cart.find(
+          (item) => item.product._id === productId,
+        );
+        if (!product) return 0;
+        const productPrice = product.product.price ?? 0;
+        const productDiscount = product.product.discount ?? 0;
+        const productQuantity = product.quantity;
+        const discount = (productPrice * productDiscount) / 100;
+        const productWithDiscount = productPrice - discount;
+        return Math.floor(productWithDiscount * productQuantity);
       },
       getSubTotalPrice: () => {
         // First we get the cart array "What is inside this array."

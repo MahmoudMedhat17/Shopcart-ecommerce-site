@@ -5,6 +5,7 @@ import { urlFor } from "@/src/sanity/lib/image";
 import { Title } from "@/src/components/Text";
 import PriceView from "@/src/components/price/PriceView";
 import Addtocart from "@/src/components/Addtocart";
+import AddToFav from "@/src/components/AddToFav";
 import { Flame, Heart, StarIcon, Minus, Plus } from "lucide-react";
 
 const ProductCard = ({ product }: { product: Product }) => {
@@ -42,9 +43,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           </Link>
         )}
         {/* Heart icon for adding the product to the cart */}
-        <button className="absolute top-2 right-2 bg-shopLighterBg hover:bg-shop-dark-green/90 p-2 rounded-full text-darkColor hover:text-gray-100 hoverEffect">
-          <Heart size={18} />
-        </button>
+        <AddToFav product={product} />
       </div>
       <div className="p-2 space-y-2">
         {/* This to display the category of each product */}

@@ -10,7 +10,7 @@ export default function RootLayout({
       <body className="font-poppins antialiased">
         <div className="flex flex-col min-h-screen">{children}</div>
         <Toaster
-          position="top-center"
+          position="bottom-right"
           reverseOrder={false}
           gutter={8}
           containerClassName=""
@@ -20,8 +20,8 @@ export default function RootLayout({
             duration: 5000,
             removeDelay: 1000,
             style: {
-              background: "#000",
-              color: "#fff",
+              background: "#fff",
+              color: "#000",
             },
             success: {
               duration: 3000,
