@@ -19,7 +19,7 @@ interface ZustandStoreProps {
   getPrice: (productId: string) => number;
   getSubTotalPrice: () => number;
   getItemCount: (productId: string) => number;
-  getGroupedItems: () => cartItems[];
+  // getAllProducts: () => cartItems[];
   // Favorite part
   favorites: Product[];
   addFavorite: (product: Product) => void;
@@ -113,7 +113,7 @@ const zustandStore = create<ZustandStoreProps>()(
           // Then we calculate the discount of each product by multiplying the product price with it's discount then divide by 100%; $50 * 20%(0.20) / 100%.
           const discount = (productPrice * productDiscount) / 100;
           // Then the productPriceWithDiscount var assigned with the product price and it's discount after calculating it.
-          const productPriceWithDiscount = productPrice + discount;
+          const productPriceWithDiscount = productPrice - discount;
           // Then add this product price with discount to the total price.
           // So when the user adds one quantity of the product this function calculate it with it's discount and add to the total and when the user adds more quantity of that product then the price of this quantity is added to the total.
           // So when the sub total is 50$ for ex. with one quantity of the product and then the quantity becomes 2 of the same product the total will be 50$ + 50$ then total is 100$ of the same product.
@@ -131,7 +131,7 @@ const zustandStore = create<ZustandStoreProps>()(
         return isSameProduct ? isSameProduct.quantity : 0;
       },
       // We get all the products inside the cart array.
-      getGroupedItems: () => get().cart,
+      // getAllProducts: () => get().cart,
 
       // Here we set addFav. with all the favoriteProducts already there plus the product the user wants to add as a favorite "product".
       addFavorite: (product) => {
