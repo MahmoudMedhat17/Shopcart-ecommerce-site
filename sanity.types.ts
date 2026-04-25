@@ -272,7 +272,6 @@ export type Category = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  productCount?: number;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -579,6 +578,74 @@ export type RANDOMDATA_QUERY_RESULT = Array<{
   };
 }>;
 
+// Source: src/sanity/queries/index.ts
+// Variable: ALLPRODUCTS_QUERY
+// Query: *[_type == "product"]
+export type ALLPRODUCTS_QUERY_RESULT = Array<{
+  _id: string;
+  _type: "product";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  images?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+  price?: number;
+  discount?: number;
+  categories?: Array<
+    {
+      _key: string;
+    } & CategoryReference
+  >;
+  stock?: number;
+  brand?: BrandReference;
+  status?: "hot" | "new" | "sale";
+  variant?: "appliances" | "gadget" | "others" | "refrigerators";
+  isFeatured?: boolean;
+  averageRating?: number;
+  totalReviews?: number;
+  ratingDistribution?: {
+    fiveStars?: number;
+    fourStars?: number;
+    threeStars?: number;
+    twoStars?: number;
+    oneStar?: number;
+  };
+}>;
+
+// Source: src/sanity/queries/index.ts
+// Variable: USERADDRESS_QUERY
+// Query: *[_type == "address"] | order(_createdAt asc)
+export type USERADDRESS_QUERY_RESULT = Array<{
+  _id: string;
+  _type: "address";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  country?: string;
+  countryCode?: string;
+  stateCode?: string;
+  subArea?: string;
+  type?: "home" | "office" | "other";
+  default?: boolean;
+  createdAt?: string;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -588,5 +655,7 @@ declare module "@sanity/client" {
     '\n    *[_type == \'product\' && status == "hot"] | order(name asc){\n  ...,\n  "categories":categories[]->{\n    title\n  }\n}': HOTDEALS_QUERY_RESULT;
     '*[_type == "product" && slug.current == $slug][0]{\n    ...,\n    brand->{\n    ...,\n    }\n    }': SINGLEPRODUCT_QUERY_RESULT;
     '*[_type == "product"]{\n        ...,\n        "categories":categories[]->{\n        _id,\n        title,\n        }\n        }': RANDOMDATA_QUERY_RESULT;
+    '*[_type == "product"]': ALLPRODUCTS_QUERY_RESULT;
+    '\n  *[_type == "address"] | order(_createdAt asc)': USERADDRESS_QUERY_RESULT;
   }
 }

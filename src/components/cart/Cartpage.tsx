@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { Address } from "@/sanity.types";
 import NoAccess from "@/src/components/NoAccess";
 import Shoppingcart from "@/src/components/cart/Shoppingcart";
 import Container from "@/src/components/Container";
@@ -11,7 +10,6 @@ import Emptycart from "@/src/components/Emptycart";
 
 const Cartpage = () => {
   const [loading, setLoading] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const { isSignedIn } = useAuth();
   const user = useUser();
   const { cart } = zustandStore();

@@ -17,7 +17,9 @@ interface ZustandStoreProps {
   removeQuantity: (productId: string) => void;
   resetCart: () => void;
   getPrice: (productId: string) => number;
-  getSubTotalPrice: () => number;
+  getTotalPriceAfterDiscount: () => number;
+  getTotalDiscount: () => number;
+  getTotalPrice: () => number;
   getItemCount: (productId: string) => number;
   // getAllProducts: () => cartItems[];
   // Favorite part
@@ -101,7 +103,16 @@ const zustandStore = create<ZustandStoreProps>()(
         const productWithDiscount = productPrice - discount;
         return Math.floor(productWithDiscount * productQuantity);
       },
-      getSubTotalPrice: () => {
+      getTotalPrice: () => {
+        const products = get().cart;
+        return products.reduce((total, item) => {
+          const productPrice = item.product.price ?? 0;
+          const productQuantity = item.quantity;
+          const totalProductPrice = productPrice * productQuantity;
+          return total + totalProductPrice;
+        }, 0);
+      },
+      getTotalPriceAfterDiscount: () => {
         // First we get the cart array "What is inside this array."
         const products = get().cart;
         // Then we loop through this cart array with reduce method
@@ -118,6 +129,21 @@ const zustandStore = create<ZustandStoreProps>()(
           // So when the user adds one quantity of the product this function calculate it with it's discount and add to the total and when the user adds more quantity of that product then the price of this quantity is added to the total.
           // So when the sub total is 50$ for ex. with one quantity of the product and then the quantity becomes 2 of the same product the total will be 50$ + 50$ then total is 100$ of the same product.
           return total + productPriceWithDiscount;
+        }, 0);
+      },
+      getTotalDiscount: () => {
+        const products = get().cart;
+        return products.reduce((total, item) => {
+          // Here we get the original price of each product in the cart.
+          const productPrice = item.product.price ?? 0;
+          // Here we get the discount applied on each product in the cart.
+          const productDiscount = item.product.discount ?? 0;
+          // Here we get the quantity of each product stored in the cart.
+          const productQuantites = item.quantity;
+          // Here we ge the amount of the  discount applied for each product inside the cart. like $100 discount on this product.
+          const productTotalDiscount = (productPrice * productDiscount) / 100;
+          // Here we get the discount of each product multiplied by it's amount of qunatity if exists and then add it to the total discount.
+          return total + productTotalDiscount * productQuantites;
         }, 0);
       },
       getItemCount: (productId: string) => {
