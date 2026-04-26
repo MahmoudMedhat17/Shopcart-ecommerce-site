@@ -65,9 +65,9 @@ const DeliveryAddress = () => {
           className="w-full"
           value={selectedAddress?._id}
           onValueChange={(value) => {
-            const found =
+            const addressFound =
               address?.find((address) => address._id === value) || null;
-            setSelectedAddress(found);
+            setSelectedAddress(addressFound);
           }}
         >
           {address?.map((address) => (
@@ -109,7 +109,14 @@ const DeliveryAddress = () => {
           Add Address
         </button>
 
-        <AddAddress isOpen={isOpen} handlePanelClick={handlePanelClick} />
+        <AddAddress
+          isOpen={isOpen}
+          handlePanelClick={handlePanelClick}
+          address={address}
+          setAddress={setAddress}
+          setSelectedAddress={setSelectedAddress}
+          setIsOpen={setIsOpen}
+        />
       </div>
     </div>
   );

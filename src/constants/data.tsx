@@ -448,3 +448,9 @@ export const priceList = [
     value: "500-5000",
   },
 ];
+
+export const addressTypes = [
+  { title: "Home", value: "home" },
+  { title: "Work", value: "work" },
+  { title: "Other", value: "other" },
+];
