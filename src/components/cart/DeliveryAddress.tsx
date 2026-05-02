@@ -7,6 +7,7 @@ import { client } from "@/src/sanity/lib/client";
 import { Label } from "@/src/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
 import AddAddress from "@/src/components/cart/AddAddress";
+import { USERADDRESS_QUERY } from "@/src/sanity/queries";
 
 const DeliveryAddress = () => {
   const [loading, setLoading] = useState(false);
@@ -20,14 +21,15 @@ const DeliveryAddress = () => {
   const handlePanelClick = () => {
     setIsOpen((prev) => !prev);
   };
+  
 
   useEffect(() => {
     const fetchAddresseData = async () => {
       setLoading(true);
       try {
         // Query to fetch the data from sanity.
-        const addressQuery = `*[_type == "address"] | order(_createdAt asc)`;
-        const data = await client.fetch(addressQuery);
+        const data = await client.fetch(USERADDRESS_QUERY);
+        
         // Here we store the data coming from sanity inside the first state "setAddress".
         setAddress(data);
         // Here we set this variable to find the default address we set inside the sanity studio.
@@ -55,7 +57,7 @@ const DeliveryAddress = () => {
     };
 
     fetchAddresseData();
-  }, [selectedAddress]);
+  }, []);
 
   return (
     <div>
@@ -83,7 +85,7 @@ const DeliveryAddress = () => {
                     htmlFor={address._id}
                     className={`capitalize ${address === selectedAddress && "text-shop-dark-green font-semibold text-lg"}`}
                   >
-                    {address.type}
+                    {address.addressType}
                   </Label>
                   {address.default && (
                     <p className="text-xs text-blue-600 bg-blue-600/20 px-2 py-0.5 rounded-sm">

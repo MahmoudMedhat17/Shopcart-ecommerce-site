@@ -238,13 +238,14 @@ export type Address = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: string;
-  email?: string;
+  fullName?: string;
+  emailAddress?: string;
   phone?: string;
   address?: string;
+  streetAddress?: string;
   city?: string;
   state?: string;
-  zip?: string;
+  zipCode?: string;
   country?: string;
   countryCode?: string;
   stateCode?: string;
@@ -630,18 +631,19 @@ export type USERADDRESS_QUERY_RESULT = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: string;
-  email?: string;
+  fullName?: string;
+  emailAddress?: string;
   phone?: string;
   address?: string;
+  streetAddress?: string;
   city?: string;
   state?: string;
-  zip?: string;
+  zipCode?: string;
   country?: string;
   countryCode?: string;
   stateCode?: string;
   subArea?: string;
-  type?: "home" | "office" | "other";
+  addressType?: "home" | "office" | "other" | null;
   default?: boolean;
   createdAt?: string;
 }>;
@@ -656,6 +658,6 @@ declare module "@sanity/client" {
     '*[_type == "product" && slug.current == $slug][0]{\n    ...,\n    brand->{\n    ...,\n    }\n    }': SINGLEPRODUCT_QUERY_RESULT;
     '*[_type == "product"]{\n        ...,\n        "categories":categories[]->{\n        _id,\n        title,\n        }\n        }': RANDOMDATA_QUERY_RESULT;
     '*[_type == "product"]': ALLPRODUCTS_QUERY_RESULT;
-    '\n  *[_type == "address"] | order(_createdAt asc)': USERADDRESS_QUERY_RESULT;
+    '*[_type == "address"] | order(_createdAt asc)': USERADDRESS_QUERY_RESULT;
   }
 }

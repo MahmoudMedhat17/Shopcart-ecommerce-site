@@ -61,6 +61,10 @@ title
 } 
 }`;
 
+const USERADDRESS_QUERY = defineQuery(
+  `*[_type == "address"] | order(_createdAt asc)`,
+);
+
 export {
   BRANDS_QUERY,
   BLOGS_QUERY,
@@ -69,4 +73,5 @@ export {
   RANDOMDATA_QUERY,
   ALLPRODUCTS_QUERY,
   FILTEREDPRODUCTS_QUERY,
+  USERADDRESS_QUERY,
 };

@@ -8,14 +8,14 @@ export const addressSchema = defineType({
   icon: HomeIcon,
   fields: [
     defineField({
-      name: "name",
+      name: "fullName",
       title: "Full Name",
       type: "string",
       description: "Full Name",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "email",
+      name: "emailAddress",
       title: "Email Address",
       type: "email",
       description: "Email address",
@@ -35,6 +35,12 @@ export const addressSchema = defineType({
       validation: (Rule) => Rule.required().min(5).max(200),
     }),
     defineField({
+      name: "streetAddress",
+      title: "Street Address",
+      type: "string",
+      description: "Street Address",
+    }),
+    defineField({
       name: "city",
       title: "City",
       type: "string",
@@ -48,7 +54,7 @@ export const addressSchema = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "zip",
+      name: "zipCode",
       title: "Zip Code",
       type: "string",
       description: "Postal code for this address",
@@ -84,7 +90,7 @@ export const addressSchema = defineType({
       validation: (Rule) => Rule.max(100),
     }),
     defineField({
-      name: "type",
+      name: "addressType",
       title: "Address Type",
       type: "string",
       description: "Type of address (home, office, other)",
@@ -123,7 +129,7 @@ export const addressSchema = defineType({
   ],
   preview: {
     select: {
-      title: "name",
+      title: "fullName",
       subtitle: "address",
       city: "city",
       state: "state",

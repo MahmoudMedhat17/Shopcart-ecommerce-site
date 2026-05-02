@@ -1374,14 +1374,14 @@
           "type": "string"
         }
       },
-      "name": {
+      "fullName": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
         "optional": true
       },
-      "email": {
+      "emailAddress": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
@@ -1402,6 +1402,13 @@
         },
         "optional": true
       },
+      "streetAddress": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "city": {
         "type": "objectAttribute",
         "value": {
@@ -1416,7 +1423,7 @@
         },
         "optional": true
       },
-      "zip": {
+      "zipCode": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

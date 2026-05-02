@@ -117,7 +117,6 @@ const getAllProducts = async () => {
   }
 };
 
-
 export {
   getCategories,
   getBrands,

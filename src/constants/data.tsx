@@ -451,6 +451,6 @@ export const priceList = [
 
 export const addressTypes = [
   { title: "Home", value: "home" },
-  { title: "Work", value: "work" },
+  { title: "Office", value: "office" },
   { title: "Other", value: "other" },
 ];

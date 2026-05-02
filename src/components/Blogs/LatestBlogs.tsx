@@ -7,7 +7,7 @@ import { getBlogs } from "@/src/sanity/queries/query";
 const LatestBlogs = async () => {
   const blogsData = await getBlogs();
 
-  console.log(blogsData);
+  // console.log(blogsData);
 
   return (
     <div className="py-12 flex flex-col items-center justify-center space-y-6">
@@ -27,7 +27,7 @@ const LatestBlogs = async () => {
           <MoveRight size={18} />
         </button>
       </Link>
-      <Blogs blogsData={blogsData?.data} />
+      <Blogs blogsData={blogsData?.data ?? []} />
     </div>
   );
 };
