@@ -8,7 +8,7 @@ import {
 import { Label } from "@/components/ui/label";
 
 type InputFieldProps<TFormValues extends FieldValues> = {
-  id: Path<TFormValues>; // Ensures 'id' strictly matches a key in your schema
+  id: Path<TFormValues>;
   label: string;
   placeholder?: string;
   type?: string;

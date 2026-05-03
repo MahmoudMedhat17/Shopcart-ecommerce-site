@@ -6,7 +6,7 @@ import NoAccess from "@/src/components/NoAccess";
 import Shoppingcart from "@/src/components/cart/Shoppingcart";
 import Container from "@/src/components/Container";
 import zustandStore from "@/src/store/zustandStore";
-import Emptycart from "@/src/components/Emptycart";
+import Emptycart from "@/src/components/cart/Emptycart";
 
 const Cartpage = () => {
   const [loading, setLoading] = useState(false);
