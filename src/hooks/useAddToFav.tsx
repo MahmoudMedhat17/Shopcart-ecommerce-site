@@ -12,7 +12,7 @@ const useAddToFav = (product: Product) => {
   const handleAddToFav = () => {
     toggleFavorite(product);
     toast.success(
-      `${product.name?.substring(0, 12)} ${!productExists ? "added to" : "removed from"} favorites!`,
+      `${product.name?.substring(0, 12)} ${!productExists ? "added to" : "removed from"} Wishlist!`,
     );
   };
 

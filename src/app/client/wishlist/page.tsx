@@ -1,5 +1,4 @@
 import WishlistProducts from "@/src/components/wishlist/WishlistProducts";
-import EmptyWishlist from "@/src/components/wishlist/EmptyWishlist";
 import { SubTitle, Title } from "@/src/components/Text";
 import Container from "@/src/components/Container";
 
@@ -11,7 +10,6 @@ const page = () => {
         Save your favorite items for later
       </SubTitle>
       <WishlistProducts />
-      {/* <EmptyWishlist /> */}
     </Container>
   );
 };

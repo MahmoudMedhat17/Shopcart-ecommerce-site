@@ -11,7 +11,7 @@ const Favpage = () => {
     <Link href="/client/wishlist" className="group relative">
       <Heart className="w-5 h-5 text-shop-dark-green hover:text-shop-light-green hoverEffect" />
       <span className="absolute -top-1 -right-2 text-white bg-shop-dark-green h-4 w-4 rounded-full flex justify-center items-center text-xs">
-        {favorites.length > 9 ? "9+" : favorites.length}
+        {favorites.length > 9 ? "+9" : favorites.length}
       </span>
     </Link>
   );

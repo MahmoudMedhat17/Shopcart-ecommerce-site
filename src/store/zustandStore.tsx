@@ -27,6 +27,7 @@ interface ZustandStoreProps {
   addFavorite: (product: Product) => void;
   removeFavorite: (productId: string) => void;
   toggleFavorite: (product: Product) => void;
+  resetWishlist: () => void;
 }
 
 const zustandStore = create<ZustandStoreProps>()(
@@ -185,6 +186,7 @@ const zustandStore = create<ZustandStoreProps>()(
           ? get().removeFavorite(product._id)
           : get().addFavorite(product);
       },
+      resetWishlist: () => set({ favorites: [] }),
     }),
     { name: "ecommerceStore" },
   ),
