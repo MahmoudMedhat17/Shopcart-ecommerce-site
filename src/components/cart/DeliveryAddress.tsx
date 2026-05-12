@@ -8,20 +8,22 @@ import { Label } from "@/src/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
 import AddAddress from "@/src/components/cart/AddAddress";
 import { USERADDRESS_QUERY } from "@/src/sanity/queries";
+import zustandStore from "@/src/store/zustandStore";
 
 const DeliveryAddress = () => {
   const [loading, setLoading] = useState(false);
   // Here we set 2 states one is to store the data coming from sanity inside it "address"
   const [address, setAddress] = useState<USERADDRESS_QUERY_RESULT | null>(null);
   // And the other is to store the address that the user selects from the list of addresses "selectedAddress"
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  // Replaced the state here with the same state but coming from zustandStore to use it in multiple components.
+  // const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  const { selectedAddress, setSelectedAddress } = zustandStore();
   // To handle the opening and closing of the add address modal
   const [isOpen, setIsOpen] = useState(false);
 
   const handlePanelClick = () => {
     setIsOpen((prev) => !prev);
   };
-  
 
   useEffect(() => {
     const fetchAddresseData = async () => {
@@ -29,7 +31,7 @@ const DeliveryAddress = () => {
       try {
         // Query to fetch the data from sanity.
         const data = await client.fetch(USERADDRESS_QUERY);
-        
+
         // Here we store the data coming from sanity inside the first state "setAddress".
         setAddress(data);
         // Here we set this variable to find the default address we set inside the sanity studio.
@@ -116,7 +118,6 @@ const DeliveryAddress = () => {
           handlePanelClick={handlePanelClick}
           address={address}
           setAddress={setAddress}
-          setSelectedAddress={setSelectedAddress}
           setIsOpen={setIsOpen}
         />
       </div>

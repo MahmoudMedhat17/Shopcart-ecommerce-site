@@ -1,9 +1,9 @@
 import { persist } from "zustand/middleware";
-import { Product } from "../../sanity.types";
+import { Product, Address } from "../../sanity.types";
 import { create } from "zustand";
 
 // Interface for the items inside the cart.
-interface cartItems {
+export interface cartItems {
   product: Product;
   quantity: number;
 }
@@ -21,13 +21,15 @@ interface ZustandStoreProps {
   getTotalDiscount: () => number;
   getTotalPrice: () => number;
   getItemCount: (productId: string) => number;
-  // getAllProducts: () => cartItems[];
+  getAllProductsCount: () => cartItems[];
   // Favorite part
   favorites: Product[];
   addFavorite: (product: Product) => void;
   removeFavorite: (productId: string) => void;
   toggleFavorite: (product: Product) => void;
   resetWishlist: () => void;
+  selectedAddress: Address | null;
+  setSelectedAddress: (address: Address | null) => void;
 }
 
 const zustandStore = create<ZustandStoreProps>()(
@@ -158,7 +160,7 @@ const zustandStore = create<ZustandStoreProps>()(
         return isSameProduct ? isSameProduct.quantity : 0;
       },
       // We get all the products inside the cart array.
-      // getAllProducts: () => get().cart,
+      getAllProductsCount: () => get().cart,
 
       // Here we set addFav. with all the favoriteProducts already there plus the product the user wants to add as a favorite "product".
       addFavorite: (product) => {
@@ -187,6 +189,9 @@ const zustandStore = create<ZustandStoreProps>()(
           : get().addFavorite(product);
       },
       resetWishlist: () => set({ favorites: [] }),
+      // Here we set selectedAddress and it's setSelectedAddress instead of using at as a state in one component so we can use this here in multiple components freely.
+      selectedAddress: null,
+      setSelectedAddress: (address) => set({ selectedAddress: address }),
     }),
     { name: "ecommerceStore" },
   ),

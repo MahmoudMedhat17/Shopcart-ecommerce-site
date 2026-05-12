@@ -6,19 +6,19 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 
-import { MapPin } from "lucide-react";
 import { Address, USERADDRESS_QUERY_RESULT } from "@/sanity.types";
 import AddressFields, {
   AddressSchema,
 } from "@/src/components/cart/AddressFields";
 import createNewAddress from "@/src/actions/createNewAddress";
+import { MapPin } from "lucide-react";
+import zustandStore from "@/src/store/zustandStore";
 
 const AddAddress = ({
   isOpen,
   handlePanelClick,
   address,
   setAddress,
-  setSelectedAddress,
   setIsOpen,
 }: {
   isOpen: boolean;
@@ -27,9 +27,10 @@ const AddAddress = ({
   setAddress: React.Dispatch<
     React.SetStateAction<USERADDRESS_QUERY_RESULT | null>
   >;
-  setSelectedAddress: React.Dispatch<React.SetStateAction<Address | null>>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { setSelectedAddress } = zustandStore();
+
   const handleNewAddress = async (data: AddressSchema) => {
     try {
       // Here we create a new address in sanity when the user wants to create a new address.
