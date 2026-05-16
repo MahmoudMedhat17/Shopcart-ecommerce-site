@@ -37,6 +37,7 @@ export type BrandReference = {
 };
 
 export type Product = {
+  [x: string]: any;
   _id: string;
   _type: "product";
   _createdAt: string;

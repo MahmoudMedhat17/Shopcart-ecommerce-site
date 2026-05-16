@@ -4,7 +4,7 @@ import { useState } from "react";
 import zustandStore from "@/src/store/zustandStore";
 import { CreditCard } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
-import { customerDataProps } from "@/src/actions/createCheckoutSession";
+import { metaDataProps } from "@/src/actions/createCheckoutSession";
 
 const OrderSummary = () => {
   const [loading, setLoading] = useState(false);
@@ -15,17 +15,18 @@ const OrderSummary = () => {
 
   // This function to handle checkout functionality.
   const handleCheckOut = () => {
+    if (!user || !selectedAddress) return;
     setLoading(true);
     try {
-      const customerData: customerDataProps = {
+      // console.log(user);
+
+      const metaData: metaDataProps = {
         orderNumber: crypto.randomUUID(),
-        customerName: user?.fullName ?? "Unkown",
-        customerEmail: user?.emailAddresses[0].emailAddress ?? "",
-        clerkUserId: user?.id ?? "",
+        customerEmail: user.emailAddresses[0].emailAddress,
+        customerName: user.fullName ?? "Unkown",
+        clerkUserId: user.id,
         address: selectedAddress,
       };
-      // Need to work on creating the session for stripe.
-      console.log(customerData);
     } catch (error) {
       console.log("Couldn't continue the payment process!", error);
     } finally {
