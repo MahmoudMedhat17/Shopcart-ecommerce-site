@@ -7,6 +7,7 @@ import { blogCategorySchema } from "@/src/sanity/schemaTypes/blogCategorySchema"
 import { blogSchema } from "@/src/sanity/schemaTypes/blogSchema";
 import { brandSchema } from "@/src/sanity/schemaTypes/brandSchema";
 import { productSchema } from "@/src/sanity/schemaTypes/productSchema";
+import { orderSchema } from "./orderSchema";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -18,5 +19,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     blogSchema,
     brandSchema,
     productSchema,
+    orderSchema,
   ],
 };

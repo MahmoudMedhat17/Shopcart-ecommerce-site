@@ -1,3 +1,5 @@
+"use server";
+
 import { Address } from "@/sanity.types";
 import { cartItems } from "../store/zustandStore";
 import stripe from "../lib/Stripe";
@@ -9,7 +11,7 @@ export interface metaDataProps {
   customerName: string;
   customerEmail: string;
   clerkUserId: string;
-  address: Address | null;
+  addressId: Address | null;
 }
 
 export interface getAllProductCountProps {
@@ -24,12 +26,15 @@ const createCheckoutSession = async (
   try {
     // Handle customer creation or retrieval
     const customers = await stripe.customers.list({
+      // Search Stripe for existing customers matching this email
       email: metaData.customerEmail,
+      // Only fetch 1 result — we just need to know if one exists
       limit: 1,
     });
     // Here we get the customer Id if it exists.
     const customerId = customers.data.length > 0 ? customers.data[0].id : "";
 
+    // Build the full Stripe checkout session configuration object
     const sessionPayload: Stripe.Checkout.SessionCreateParams = {
       // "payment" mode means a one-time charge (as opposed to "subscription" or "setup")
       mode: "payment",
@@ -44,14 +49,22 @@ const createCheckoutSession = async (
 
       // Where Stripe redirects the customer after a successful payment
       // Includes the order number in the URL so the success page can look up and display the order
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success/orderNumber=${metaData.orderNumber}`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/client/success?orderNumber=${metaData.orderNumber}&session_id={CHECKOUT_SESSION_ID}`,
 
       // Where Stripe redirects the customer if they cancel or close the checkout page
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/client/cart`,
+
+      metadata: {
+        orderNumber: metaData.orderNumber,
+        customerEmail: metaData.customerEmail,
+        customerName: metaData.customerName,
+        clerkUserId: metaData.clerkUserId,
+        addressId: metaData.addressId?._id ?? "",
+      },
 
       // The list of products the customer is purchasing
       // Each cart item is mapped into a Stripe line_item object
-      line_items: products.map(({ product }) => ({
+      line_items: products.map(({ product, quantity }) => ({
         price_data: {
           // The currency for this line item — all prices will be charged in USD
           currency: "USD",
@@ -67,25 +80,37 @@ const createCheckoutSession = async (
             description: product.description ?? "",
 
             // Custom metadata attached to the product — useful for referencing back to your Sanity product after payment
-            metaData: {
+            metadata: {
+              // Store the Sanity product _id so we can look it up after the webhook fires
               id: product._id,
             },
 
             // The product image shown on the checkout page
-            // Uses Sanity's urlFor helper to build the image URL; falls back to empty string if no images exist
-            image:
+            // Uses Sanity's urlFor helper to build the image URL; falls back to empty array if no images exist
+            images:
               product.images && product.images.length > 0
                 ? [urlFor(product.images[0]).url()]
-                : "",
+                : [],
           },
         },
 
         // How many units of this product the customer is buying
-        quantity: product.quantity,
+        quantity,
       })),
-
-      // Need here to check if there's customerId then use it if not then use the customerEmail
     };
+
+    // Need here to check if there's customerId then use it if not then use the customerEmail
+    if (customerId) {
+      // Attach the existing Stripe customer to the session so their saved details are pre-filled
+      sessionPayload.customer = customerId;
+    } else {
+      // No existing customer found — pass the email so Stripe can create one during checkout
+      sessionPayload.customer_email = metaData.customerEmail;
+    }
+    // Send the fully built payload to Stripe and create the hosted checkout session
+    const session = await stripe.checkout.sessions.create(sessionPayload);
+    // Return the hosted checkout URL so the client can redirect the user to it
+    return session.url;
   } catch (error) {
     console.log("Error creating a checkout session!", error);
     throw error;
