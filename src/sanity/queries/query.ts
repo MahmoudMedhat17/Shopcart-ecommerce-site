@@ -7,6 +7,7 @@ import {
   SINGLEPRODUCT_QUERY,
   RANDOMDATA_QUERY,
   ALLPRODUCTS_QUERY,
+  USERORDERS_QUERY,
 } from "@/src/sanity/queries/index";
 
 // This is a function to getCategories in the project depending on a specific number of categories or all the categories by cateQuantity argument.
@@ -117,6 +118,19 @@ const getAllProducts = async () => {
   }
 };
 
+const getOrders = async (userId: string) => {
+  try {
+    const orderQuery = await sanityFetch({
+      query: USERORDERS_QUERY,
+      params: { userId },
+    });
+
+    return orderQuery.data;
+  } catch (error) {
+    console.log("Failed to fetch the order details!", error);
+  }
+};
+
 export {
   getCategories,
   getBrands,
@@ -125,4 +139,5 @@ export {
   getSingleProduct,
   getRandomProducts,
   getAllProducts,
+  getOrders,
 };

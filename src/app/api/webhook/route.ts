@@ -231,4 +231,3 @@ const updateStockLevel = async (
     }
   }
 };
-

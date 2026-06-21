@@ -65,6 +65,15 @@ const USERADDRESS_QUERY = defineQuery(
   `*[_type == "address"] | order(_createdAt asc)`,
 );
 
+const USERORDERS_QUERY = defineQuery(`
+  *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {
+    ..., 
+    products[]->{
+      ...
+    }
+  }
+`);
+
 export {
   BRANDS_QUERY,
   BLOGS_QUERY,
@@ -74,4 +83,5 @@ export {
   ALLPRODUCTS_QUERY,
   FILTEREDPRODUCTS_QUERY,
   USERADDRESS_QUERY,
+  USERORDERS_QUERY,
 };
