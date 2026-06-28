@@ -107,7 +107,8 @@ const orderInSanity = async (
 
     // Typed array that will hold each purchased product formatted for Sanity's order document
     const sanityProducts: {
-      key: string; // unique key required by Sanity for array items
+      _key: string; // unique key required by Sanity for array items
+      _type: string;
       product: { _type: string; _ref: string }; // Sanity reference pointing to the product document
       quantity: number; // how many units the customer bought
     }[] = [];
@@ -125,7 +126,8 @@ const orderInSanity = async (
 
       // Push a formatted Sanity reference object into the sanityProducts array
       sanityProducts.push({
-        key: crypto.randomUUID(), // generate a unique key for this array item
+        _key: crypto.randomUUID(), // generate a unique key for this array item
+        _type: "ordersData",
         product: {
           _type: "reference", // tells Sanity this is a reference to another document
           _ref: productId, // the actual Sanity document ID of the product
@@ -137,7 +139,6 @@ const orderInSanity = async (
       stockUpdate.push({ productId, quantity });
     });
 
-    // Need to check this line.
     const addressDoc = addressId
       ? await backendClient.fetch(
           `*[_type == "address" && _id == $addressId][0]`,
@@ -161,7 +162,7 @@ const orderInSanity = async (
       amountDiscount: total_details?.amount_discount // discount amount in smallest currency unit (cents)
         ? total_details.amount_discount
         : 0,
-      totalPrice: amount_total ? amount_total : 0, // total charged in smallest currency unit (cents)
+      totalPrice: amount_total ? (amount_total / 100).toFixed(2) : 0, // total charged in smallest currency unit (cents)
       orderDate: new Date().toISOString(), // timestamp of when this order was processed
       invoice: invoice // attach invoice details if one was generated
         ? {
@@ -180,6 +181,8 @@ const orderInSanity = async (
           }
         : null, // if no address was provided, store null
     };
+
+    console.log(orderDoc.totalPrice);
 
     // Save the completed order document to Sanity CMS using the backend (write-enabled) client
     await backendClient.create(orderDoc);

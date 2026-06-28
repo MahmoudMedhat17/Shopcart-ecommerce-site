@@ -15,6 +15,57 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
+export type ProductReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "product";
+};
+
+export type Order = {
+  _id: string;
+  _type: "order";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderNumber?: string;
+  customerName?: string;
+  customerEmail?: string;
+  clerkUserId?: string;
+  products?: Array<{
+    product?: ProductReference;
+    quantity?: number;
+    price?: number;
+    _key: string;
+  }>;
+  totalPrice?: number;
+  status?:
+    | "pending"
+    | "paid"
+    | "processing"
+    | "shipped"
+    | "delivered"
+    | "cancelled";
+  currency?: string;
+  amountDiscount?: number;
+  address?: {
+    state?: string;
+    zip?: string;
+    city?: string;
+    address?: string;
+    name?: string;
+  };
+  stripePaymentIntent?: string;
+  orderDate?: string;
+  stripeCheckoutSessionId?: string;
+  stripeCustomerId?: string;
+  invoice?: {
+    invoiceId?: string;
+    number?: string;
+    hosted_invoice_url?: string;
+  };
+};
+
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
@@ -37,7 +88,6 @@ export type BrandReference = {
 };
 
 export type Product = {
-  [x: string]: any;
   _id: string;
   _type: "product";
   _createdAt: string;
@@ -251,7 +301,7 @@ export type Address = {
   countryCode?: string;
   stateCode?: string;
   subArea?: string;
-  type?: "home" | "office" | "other";
+  addressType?: "home" | "office" | "other";
   default?: boolean;
   createdAt?: string;
 };
@@ -373,6 +423,8 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | ProductReference
+  | Order
   | SanityImageAssetReference
   | CategoryReference
   | BrandReference
@@ -644,9 +696,51 @@ export type USERADDRESS_QUERY_RESULT = Array<{
   countryCode?: string;
   stateCode?: string;
   subArea?: string;
-  addressType?: "home" | "office" | "other" | null;
+  addressType?: "home" | "office" | "other";
   default?: boolean;
   createdAt?: string;
+}>;
+
+// Source: src/sanity/queries/index.ts
+// Variable: USERORDERS_QUERY
+// Query: *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {    ...,     products[]->{      ...    }  }
+export type USERORDERS_QUERY_RESULT = Array<{
+  _id: string;
+  _type: "order";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderNumber?: string;
+  customerName?: string;
+  customerEmail?: string;
+  clerkUserId?: string;
+  products: Array<null> | null;
+  totalPrice?: number;
+  status?:
+    | "cancelled"
+    | "delivered"
+    | "paid"
+    | "pending"
+    | "processing"
+    | "shipped";
+  currency?: string;
+  amountDiscount?: number;
+  address?: {
+    state?: string;
+    zip?: string;
+    city?: string;
+    address?: string;
+    name?: string;
+  };
+  stripePaymentIntent?: string;
+  orderDate?: string;
+  stripeCheckoutSessionId?: string;
+  stripeCustomerId?: string;
+  invoice?: {
+    invoiceId?: string;
+    number?: string;
+    hosted_invoice_url?: string;
+  };
 }>;
 
 // Query TypeMap
@@ -660,5 +754,6 @@ declare module "@sanity/client" {
     '*[_type == "product"]{\n        ...,\n        "categories":categories[]->{\n        _id,\n        title,\n        }\n        }': RANDOMDATA_QUERY_RESULT;
     '*[_type == "product"]': ALLPRODUCTS_QUERY_RESULT;
     '*[_type == "address"] | order(_createdAt asc)': USERADDRESS_QUERY_RESULT;
+    '\n  *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {\n    ..., \n    products[]->{\n      ...\n    }\n  }\n': USERORDERS_QUERY_RESULT;
   }
 }

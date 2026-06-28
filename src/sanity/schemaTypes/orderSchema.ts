@@ -57,6 +57,8 @@ export const orderSchema = defineType({
       type: "array",
       of: [
         {
+          name: "ordersData",
+          title: "Orders Data",
           type: "object",
           fields: [
             {

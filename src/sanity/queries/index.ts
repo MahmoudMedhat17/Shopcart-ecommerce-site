@@ -68,8 +68,11 @@ const USERADDRESS_QUERY = defineQuery(
 const USERORDERS_QUERY = defineQuery(`
   *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {
     ..., 
-    products[]->{
-      ...
+    products[]{
+      ...,
+      product->{
+        ...
+      }
     }
   }
 `);

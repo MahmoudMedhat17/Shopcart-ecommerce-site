@@ -9,20 +9,12 @@ import Mobilemenu from "@/src/components/Mobilemenu";
 import { ClerkLoaded, SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import Ordericon from "./Ordericon";
-import { NextResponse } from "next/server";
 
 // async component so we can await server-side data (currentUser) before rendering
 const Header = async () => {
   // fetch the currently authenticated user from Clerk on the server
   const user = await currentUser();
 
-  // guard clause: if no user is authenticated, return a 404 JSON error response and stop rendering
-  if (!user) {
-    return NextResponse.json(
-      { error: "User is not signed in!" },
-      { status: 404 },
-    );
-  }
 
   return (
     // sticky header pinned to the top with a frosted-glass background (backdrop blur + semi-transparent white)
@@ -44,7 +36,11 @@ const Header = async () => {
           <Searchbar />
           <Carticon />
           <Favicon />
-          <Ordericon />
+          {
+            user ? 
+            <Ordericon />
+            : null
+          }
           {/* ClerkLoaded delays rendering its children until the Clerk.js SDK has fully initialised on the client */}
           <ClerkLoaded>
             {/* SignedIn renders its children only when there is an active Clerk session */}
@@ -62,3 +58,4 @@ const Header = async () => {
 };
 
 export default Header;
+

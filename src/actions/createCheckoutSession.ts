@@ -23,6 +23,7 @@ const createCheckoutSession = async (
   metaData: metaDataProps,
   products: getAllProductCountProps[],
 ) => {
+  console.log("CHECKING CART ITEMS:", JSON.stringify(products, null, 2)); // 👈 ADD THIS
   try {
     // Handle customer creation or retrieval
     const customers = await stripe.customers.list({

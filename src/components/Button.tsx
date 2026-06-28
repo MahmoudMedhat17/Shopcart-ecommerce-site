@@ -6,11 +6,12 @@ const Button = ({
   children,
   className,
   hrefLink,
+  onClick,
 }: {
   children: ReactNode;
   className?: string;
   hrefLink?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }) => {
   if (hrefLink) {
     return (
@@ -20,7 +21,11 @@ const Button = ({
     );
   }
 
-  return <button className={cn("", className)}>{children}</button>;
+  return (
+    <button onClick={onClick} className={cn("", className)}>
+      {children}
+    </button>
+  );
 };
 
 export default Button;

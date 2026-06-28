@@ -23,7 +23,7 @@
     "motion": "^12.34.3",
     "next": "16.1.6",
     "next-sanity": "^11.6.12",
-    "radix-ui": "^1.4.3",
+    "radix-ui": "^1.6.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.73.1",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/country-list": "^2.1.4",
-    "@types/node": "^20",
+    "@types/node": "^20.19.43",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
