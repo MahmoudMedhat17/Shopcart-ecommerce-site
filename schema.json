@@ -120,6 +120,13 @@
                   "type": "number"
                 },
                 "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "ordersData"
+                }
               }
             },
             "rest": {

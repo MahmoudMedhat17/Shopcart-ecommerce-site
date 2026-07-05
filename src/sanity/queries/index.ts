@@ -77,6 +77,10 @@ const USERORDERS_QUERY = defineQuery(`
   }
 `);
 
+const DELETEUSERORDERS_QUERY = defineQuery(`
+  *[_type == "order" && orderNumber == $orderNumber]
+`);
+
 export {
   BRANDS_QUERY,
   BLOGS_QUERY,
@@ -87,4 +91,5 @@ export {
   FILTEREDPRODUCTS_QUERY,
   USERADDRESS_QUERY,
   USERORDERS_QUERY,
+  DELETEUSERORDERS_QUERY,
 };

@@ -65,39 +65,45 @@ const createCheckoutSession = async (
 
       // The list of products the customer is purchasing
       // Each cart item is mapped into a Stripe line_item object
-      line_items: products.map(({ product, quantity }) => ({
-        price_data: {
-          // The currency for this line item — all prices will be charged in USD
-          currency: "USD",
-          // The price in the smallest currency unit (cents for USD)
-          // Stripe requires integers, so we multiply by 100 and round to avoid floating point issues
-          unit_amount: Math.round((product.price ?? 0) * 100),
+      line_items: products.map(({ product, quantity }) => {
+        const originalPrice = product.price ?? 0;
+        const discount = product.discount ?? 0;
+        const finalPrice = originalPrice - (originalPrice * discount) / 100;
 
-          product_data: {
-            // The product name shown to the customer on the Stripe checkout page
-            name: product.name ?? "Unkown product",
+        return {
+          price_data: {
+            // The currency for this line item — all prices will be charged in USD
+            currency: "USD",
+            // The price in the smallest currency unit (cents for USD)
+            // Stripe requires integers, so we multiply by 100 and round to avoid floating point issues
+            unit_amount: Math.round(finalPrice * 100),
 
-            // A short description of the product shown on the checkout page
-            description: product.description ?? "",
+            product_data: {
+              // The product name shown to the customer on the Stripe checkout page
+              name: product.name ?? "Unkown product",
 
-            // Custom metadata attached to the product — useful for referencing back to your Sanity product after payment
-            metadata: {
-              // Store the Sanity product _id so we can look it up after the webhook fires
-              id: product._id,
+              // A short description of the product shown on the checkout page
+              description: product.description ?? "",
+
+              // Custom metadata attached to the product — useful for referencing back to your Sanity product after payment
+              metadata: {
+                // Store the Sanity product _id so we can look it up after the webhook fires
+                id: product._id,
+              },
+
+              // The product image shown on the checkout page
+              // Uses Sanity's urlFor helper to build the image URL; falls back to empty array if no images exist
+              images:
+                product.images && product.images.length > 0
+                  ? [urlFor(product.images[0]).url()]
+                  : [],
             },
-
-            // The product image shown on the checkout page
-            // Uses Sanity's urlFor helper to build the image URL; falls back to empty array if no images exist
-            images:
-              product.images && product.images.length > 0
-                ? [urlFor(product.images[0]).url()]
-                : [],
           },
-        },
 
-        // How many units of this product the customer is buying
-        quantity,
-      })),
+          // How many units of this product the customer is buying
+          quantity,
+        };
+      }),
     };
 
     // Need here to check if there's customerId then use it if not then use the customerEmail

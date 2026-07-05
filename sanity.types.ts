@@ -36,16 +36,12 @@ export type Order = {
     product?: ProductReference;
     quantity?: number;
     price?: number;
+    _type: "ordersData";
     _key: string;
   }>;
   totalPrice?: number;
   status?:
-    | "pending"
-    | "paid"
-    | "processing"
-    | "shipped"
-    | "delivered"
-    | "cancelled";
+    "pending" | "paid" | "processing" | "shipped" | "delivered" | "cancelled";
   currency?: string;
   amountDiscount?: number;
   address?: {
@@ -703,7 +699,7 @@ export type USERADDRESS_QUERY_RESULT = Array<{
 
 // Source: src/sanity/queries/index.ts
 // Variable: USERORDERS_QUERY
-// Query: *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {    ...,     products[]->{      ...    }  }
+// Query: *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {    ...,     products[]{      ...,      product->{        ...      }    }  }
 export type USERORDERS_QUERY_RESULT = Array<{
   _id: string;
   _type: "order";
@@ -714,15 +710,54 @@ export type USERORDERS_QUERY_RESULT = Array<{
   customerName?: string;
   customerEmail?: string;
   clerkUserId?: string;
-  products: Array<null> | null;
+  products: Array<{
+    product: {
+      _id: string;
+      _type: "product";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      name?: string;
+      slug?: Slug;
+      description?: string;
+      images?: Array<{
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }>;
+      price?: number;
+      discount?: number;
+      categories?: Array<
+        {
+          _key: string;
+        } & CategoryReference
+      >;
+      stock?: number;
+      brand?: BrandReference;
+      status?: "hot" | "new" | "sale";
+      variant?: "appliances" | "gadget" | "others" | "refrigerators";
+      isFeatured?: boolean;
+      averageRating?: number;
+      totalReviews?: number;
+      ratingDistribution?: {
+        fiveStars?: number;
+        fourStars?: number;
+        threeStars?: number;
+        twoStars?: number;
+        oneStar?: number;
+      };
+    } | null;
+    quantity?: number;
+    price?: number;
+    _type: "ordersData";
+    _key: string;
+  }> | null;
   totalPrice?: number;
   status?:
-    | "cancelled"
-    | "delivered"
-    | "paid"
-    | "pending"
-    | "processing"
-    | "shipped";
+    "cancelled" | "delivered" | "paid" | "pending" | "processing" | "shipped";
   currency?: string;
   amountDiscount?: number;
   address?: {
@@ -754,6 +789,6 @@ declare module "@sanity/client" {
     '*[_type == "product"]{\n        ...,\n        "categories":categories[]->{\n        _id,\n        title,\n        }\n        }': RANDOMDATA_QUERY_RESULT;
     '*[_type == "product"]': ALLPRODUCTS_QUERY_RESULT;
     '*[_type == "address"] | order(_createdAt asc)': USERADDRESS_QUERY_RESULT;
-    '\n  *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {\n    ..., \n    products[]->{\n      ...\n    }\n  }\n': USERORDERS_QUERY_RESULT;
+    '\n  *[_type == "order" && clerkUserId == $userId] | order(orderDate desc) {\n    ..., \n    products[]{\n      ...,\n      product->{\n        ...\n      }\n    }\n  }\n': USERORDERS_QUERY_RESULT;
   }
 }

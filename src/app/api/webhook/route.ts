@@ -111,6 +111,7 @@ const orderInSanity = async (
       _type: string;
       product: { _type: string; _ref: string }; // Sanity reference pointing to the product document
       quantity: number; // how many units the customer bought
+      price: number; // actual price paid per unit (in dollars, not cents)
     }[] = [];
 
     // Array that will hold product IDs and quantities — intended for a future stock update function
@@ -124,6 +125,11 @@ const orderInSanity = async (
       // Use the purchased quantity, defaulting to 0 if somehow missing
       const quantity = item.quantity || 0;
 
+      // Get the actual price paid per unit from Stripe (in cents), convert to dollars
+      const pricePaid = item.price?.unit_amount
+        ? item.price.unit_amount / 100
+        : 0;
+
       // Push a formatted Sanity reference object into the sanityProducts array
       sanityProducts.push({
         _key: crypto.randomUUID(), // generate a unique key for this array item
@@ -133,6 +139,7 @@ const orderInSanity = async (
           _ref: productId, // the actual Sanity document ID of the product
         },
         quantity,
+        price: Math.floor(pricePaid), // store the actual price paid per unit
       });
 
       // Also store the product ID and quantity for the stock update (not yet implemented)
@@ -162,7 +169,7 @@ const orderInSanity = async (
       amountDiscount: total_details?.amount_discount // discount amount in smallest currency unit (cents)
         ? total_details.amount_discount
         : 0,
-      totalPrice: amount_total ? (amount_total / 100).toFixed(2) : 0, // total charged in smallest currency unit (cents)
+      totalPrice: amount_total ? amount_total / 100 : 0, // total charged in smallest currency unit (cents)
       orderDate: new Date().toISOString(), // timestamp of when this order was processed
       invoice: invoice // attach invoice details if one was generated
         ? {
@@ -181,8 +188,6 @@ const orderInSanity = async (
           }
         : null, // if no address was provided, store null
     };
-
-    console.log(orderDoc.totalPrice);
 
     // Save the completed order document to Sanity CMS using the backend (write-enabled) client
     await backendClient.create(orderDoc);

@@ -1,4 +1,6 @@
 import { USERORDERS_QUERY_RESULT } from "@/sanity.types";
+import Image from "next/image";
+import PriceView from "@/src/components/price/PriceView";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +19,7 @@ import {
 import Link from "next/link";
 import Button from "@/src/components/Button";
 import { X } from "lucide-react";
+import { urlFor } from "../sanity/lib/image";
 
 const OrderdetailDialog = ({
   order,
@@ -71,26 +74,44 @@ const OrderdetailDialog = ({
           </Button>
         </div>
 
-        {/* Need to create here a table with Products info of prodcut info, quantity and price. */}
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Products</TableHead>
-              <TableHead>Quantity</TableHead>
-              <TableHead>Price</TableHead>
+              <TableHead className="text-base font-semibold">
+                Products
+              </TableHead>
+              <TableHead className="text-base font-semibold text-center">
+                Quantity
+              </TableHead>
+              <TableHead className="text-base font-semibold text-center">
+                Price
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {/* Need to work on displaying the product details. */}
-            {/* {order?.products?.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell>{product.name}</TableCell>
-                <TableCell>{product.quantity}</TableCell>
-                <TableCell>{product.price}</TableCell>
+            {order?.products?.map((item) => (
+              <TableRow key={item.product?._id}>
+                <TableCell className="flex items-center gap-4">
+                  <Image
+                    src={urlFor(item.product?.images?.[0] || "").url()}
+                    alt={item.product?.name || ""}
+                    width={70}
+                    height={70}
+                  />
+                  {item.product?.name}
+                </TableCell>
+                <TableCell className="text-center">{item.quantity}</TableCell>
+                <TableCell className="text-center">
+                  ${Math.floor(item.price || 0) || item.product?.price}
+                </TableCell>
               </TableRow>
-            ))} */}
+            ))}
           </TableBody>
         </Table>
+        <div className="flex justify-end items-end gap-[30px]">
+          <p className="font-semibold text-base">Total:</p>
+          <p>${Math.trunc(order?.totalPrice || 0)}</p>
+        </div>
       </DialogContent>
     </Dialog>
   );

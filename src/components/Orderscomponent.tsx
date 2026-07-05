@@ -12,6 +12,8 @@ import { format } from "date-fns";
 import { X } from "lucide-react";
 import { useState } from "react";
 import OrderdetailDialog from "./OrderdetailDialog";
+import getDeleteOrders from "@/src/actions/deleteTheOrder";
+import { toast } from "react-hot-toast";
 
 const Orderscomponent = ({ orders }: { orders: USERORDERS_QUERY_RESULT }) => {
   const [selectedOrder, setSelectedOrder] = useState<
@@ -22,7 +24,14 @@ const Orderscomponent = ({ orders }: { orders: USERORDERS_QUERY_RESULT }) => {
     setSelectedOrder(order);
   };
 
-  console.log(selectedOrder);
+  const handleDeleteOrder = async (orderNumber: string) => {
+    if (orderNumber) {
+      const result = await getDeleteOrders(orderNumber);
+      if (result) {
+        toast.success("Order deleted successfully");
+      }
+    }
+  };
 
   return (
     <>
@@ -70,12 +79,20 @@ const Orderscomponent = ({ orders }: { orders: USERORDERS_QUERY_RESULT }) => {
                   <TableCell className="hidden sm:table-cell">
                     {order.invoice ? order.invoice.number : "N/A"}
                   </TableCell>
-                  <TableCell className="flex justify-center items-center">
+                  <TableCell
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (order.orderNumber) {
+                        handleDeleteOrder(order.orderNumber);
+                      }
+                    }}
+                    className="flex justify-center items-center"
+                  >
                     <X size={20} className="cursor-pointer" />
                   </TableCell>
                 </TableRow>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent className="font-semibold text-base">
                 <p>Click here for more details.</p>
               </TooltipContent>
             </Tooltip>
