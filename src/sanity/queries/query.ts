@@ -8,6 +8,10 @@ import {
   RANDOMDATA_QUERY,
   ALLPRODUCTS_QUERY,
   USERORDERS_QUERY,
+  GETALLBLOGS_QUERY,
+  GETSINGLEBLOG_QUERY,
+  GETBLOGCATEGORIES_QUERY,
+  GETOTHERBLOGS_QUERY,
 } from "@/src/sanity/queries/index";
 
 // This is a function to getCategories in the project depending on a specific number of categories or all the categories by cateQuantity argument.
@@ -131,6 +135,57 @@ const getOrders = async (userId: string) => {
   }
 };
 
+const getAllBlogs = async () => {
+  try {
+    const blogs = await sanityFetch({
+      query: GETALLBLOGS_QUERY,
+    });
+    return blogs.data ?? [];
+  } catch (error) {
+    console.log("Failed to get all the Blogs data!", error);
+    return [];
+  }
+};
+
+const getSingleBlog = async (slug: string) => {
+  try {
+    const singleBlog = await sanityFetch({
+      query: GETSINGLEBLOG_QUERY,
+      params: { slug },
+    });
+    return singleBlog.data ?? [];
+  } catch (error) {
+    console.log("Failed to get single Blogs data!", error);
+    return null;
+  }
+};
+
+const getBlogCategories = async () => {
+  try {
+    const blogCategories = await sanityFetch({
+      query: GETBLOGCATEGORIES_QUERY,
+    });
+    
+    return blogCategories.data ?? [];
+  } catch (error) {
+    console.log("Failed to get blog categories!", error);
+    return null;
+  }
+};
+
+const getOtherBlogs = async (slug: string, quantity: number) => {
+  try {
+    const otherBlogs = await sanityFetch({
+      query: GETOTHERBLOGS_QUERY,
+      params: { slug, quantity },
+    });
+    return otherBlogs.data ?? [];
+  } catch (error) {
+    console.log("Failed to get other blogs!", error);
+    return null;
+  }
+};
+
 export {
   getCategories,
   getBrands,
@@ -140,4 +195,8 @@ export {
   getRandomProducts,
   getAllProducts,
   getOrders,
+  getAllBlogs,
+  getSingleBlog,
+  getBlogCategories,
+  getOtherBlogs,
 };

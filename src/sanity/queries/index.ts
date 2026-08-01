@@ -81,6 +81,47 @@ const DELETEUSERORDERS_QUERY = defineQuery(`
   *[_type == "order" && orderNumber == $orderNumber]
 `);
 
+const GETALLBLOGS_QUERY = defineQuery(`
+  *[_type == "blog"] | order(publishedAt desc){
+  ...,
+  blogcategories[]->{
+    title
+  }
+  }
+  `);
+
+const GETSINGLEBLOG_QUERY = defineQuery(`
+  *[_type == "blog" && slug.current == $slug]{
+  ...,
+  author->{
+  name,image},
+  blogcategories[]->{
+  title,
+  "slug":slug.current
+  }
+  }
+  `);
+
+const GETBLOGCATEGORIES_QUERY = defineQuery(`*[_type == "blog"]{
+    blogcategories[]->{
+    ...
+    }
+  }`);
+
+const GETOTHERBLOGS_QUERY = defineQuery(`
+  *[_type == "blog" && defined(slug) && slug.current != $slug] | order(publishedAt desc)[0...$quantity]{
+    ...,
+    author->{
+      name,
+      image
+    },
+    blogcategories[]->{
+      title,
+      "slug": slug.current
+    }
+  }
+`);
+
 export {
   BRANDS_QUERY,
   BLOGS_QUERY,
@@ -92,4 +133,8 @@ export {
   USERADDRESS_QUERY,
   USERORDERS_QUERY,
   DELETEUSERORDERS_QUERY,
+  GETALLBLOGS_QUERY,
+  GETSINGLEBLOG_QUERY,
+  GETBLOGCATEGORIES_QUERY,
+  GETOTHERBLOGS_QUERY,
 };
