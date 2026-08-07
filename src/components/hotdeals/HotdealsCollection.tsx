@@ -6,7 +6,6 @@ import { Flame } from "lucide-react";
 const HotdealsCollection = async () => {
   const hotdealsProductsData = await getHotDeals();
 
-
   return (
     <div className="flex flex-col justify-center items-center py-12 space-y-6">
       <div className="flex items-center  gap-2 sm:gap-4">
@@ -20,7 +19,7 @@ const HotdealsCollection = async () => {
         Discover amazing deals on premium products. Limited quantities available
         at these special prices.
       </SubText>
-      <HotdealsProducts hotdealsProductsData={hotdealsProductsData?.data} />
+      <HotdealsProducts hotdealsProductsData={hotdealsProductsData} />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import NoAccess from "@/src/components/NoAccess";
 import Shoppingcart from "@/src/components/cart/Shoppingcart";
@@ -9,7 +8,6 @@ import zustandStore from "@/src/store/zustandStore";
 import Emptycart from "@/src/components/cart/Emptycart";
 
 const Cartpage = () => {
-  const [loading, setLoading] = useState(false);
   const { isSignedIn } = useAuth();
   const { cart } = zustandStore();
 

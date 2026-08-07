@@ -21,9 +21,7 @@ const BLOGS_QUERY =
 const HOTDEALS_QUERY = defineQuery(`
     *[_type == 'product' && status == "hot"] | order(name asc){
   ...,
-  "categories":categories[]->{
-    title
-  }
+  categories[]->
 }`);
 
 const SINGLEPRODUCT_QUERY =

@@ -42,7 +42,7 @@ const PopularCategories = ({ categoryData }: { categoryData: Category[] }) => {
         <SubText className="text-gray-600 text-xl max-w-2xl mx-auto text-center">
           Explore our most popular product categories and find what you need
         </SubText>
-        <Link href={"/client/category"}>
+        <Link href={`/client/category/${categoryData[0].slug?.current}`}>
           <button className="flex items-center gap-2 border border-shop-light-green text-shop-dark-green/80 hover:bg-shop-light-green hover:text-white hoverEffect bg-shop-light-bg rounded-full px-6 py-3 font-semibold">
             Browser All Categories
             <MoveRight size={18} />

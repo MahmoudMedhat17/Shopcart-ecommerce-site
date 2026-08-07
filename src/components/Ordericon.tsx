@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logs } from "lucide-react";
 import { auth } from "@clerk/nextjs/server";
 import { getOrders } from "../sanity/queries/query";
+import { USERORDERS_QUERYResult } from "@/sanity.types";
 
 // async component so we can await server-side auth and data fetching before rendering
 const Ordericon = async () => {
@@ -9,13 +10,12 @@ const Ordericon = async () => {
   const { userId } = await auth();
 
   // initialise orders as null; will be populated only if a logged-in user exists
-  let orders = null;
+  let orders: USERORDERS_QUERYResult | undefined;
 
   // only fetch orders when there is an authenticated user — avoids an unnecessary DB/API call for guests
   if (userId) {
     orders = await getOrders(userId); // fetch all orders belonging to this user from Sanity
   }
-
 
   return (
     // navigates to the user's orders page; `group` enables child hover utilities via Tailwind group-hover

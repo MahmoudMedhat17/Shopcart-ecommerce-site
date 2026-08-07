@@ -26,8 +26,6 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   if (!blog || !blog[0]) return notFound();
 
-  // console.log(blog);
-
   return (
     <div className="py-10">
       <Container className="grid grid-cols-1 lg:grid-cols-4 gap-5">
@@ -36,7 +34,7 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
             {blog[0]?.blogcategories?.[0]?.title || "No category"}
           </p>
           <Title className="text-4xl">{blog[0].title}</Title>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <p className="text-sm text-gray-600 flex items-center gap-2 relative group cursor-pointer">
               <User className="w-4 h-4" />
               {blog[0].author?.name || "Unknown Author"}
@@ -85,8 +83,8 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
               ))}
           </div>
           <div className="border-t py-10 flex flex-col gap-6 sm:gap-0 sm:flex-row justify-between items-center">
-            <Link href="/client/blog">
-              <button className="flex items-center gap-2 border border-shop-dark-green px-2 py-1 rounded-sm hover:bg-shop-dark-green hover:text-white hoverEffect">
+            <Link href="/client/blog" className="w-full sm:w-1/3">
+              <button className="flex items-center gap-2 border border-shop-dark-green px-2 py-1 rounded-sm hover:bg-shop-dark-green hover:text-white hoverEffect w-full justify-center">
                 <ChevronLeft className="w-4 h-4" />
                 Back to Blog
               </button>

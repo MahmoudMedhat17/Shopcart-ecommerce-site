@@ -1,6 +1,6 @@
 "use client";
 
-import { BRANDS_QUERY_RESULT, Category, Product } from "@/sanity.types";
+import { BRANDS_QUERYResult, Category, Product } from "@/sanity.types";
 import { SubTitle, Title } from "@/src/components/Text";
 import Container from "@/src/components/Container";
 import CategoryList from "@/src/components/shop/CategoryList";
@@ -17,7 +17,7 @@ import ScrollToTop from "@/src/lib/Scrolltotop";
 
 interface ShopProps {
   categories: Category[];
-  brands: BRANDS_QUERY_RESULT;
+  brands: BRANDS_QUERYResult;
   allProducts: Product[];
 }
 

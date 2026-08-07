@@ -1,11 +1,11 @@
-import { BRANDS_QUERY_RESULT } from "@/sanity.types";
+import { BRANDS_QUERYResult } from "@/sanity.types";
 import { Title } from "@/src/components/Text";
 import { Dispatch, SetStateAction } from "react";
 import { Label } from "@/src/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
 
 interface BrandListProps {
-  brands: BRANDS_QUERY_RESULT;
+  brands: BRANDS_QUERYResult;
   selectedBrand: string | null;
   setSelectedBrand: Dispatch<SetStateAction<string | null>>;
 }

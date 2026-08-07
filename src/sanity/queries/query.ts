@@ -1,3 +1,4 @@
+import { Product } from "@/sanity.types";
 import { sanityFetch } from "../lib/live";
 import { client } from "@/src/sanity/lib/client";
 import {
@@ -59,10 +60,9 @@ const getBrands = async () => {
 const getBlogs = async () => {
   try {
     // Here we fetch the blogs data and isLatest is equal true with ascending order according to the title of the blog and everything related to the blog data plus creating a field of blogcategories that return an that contains the title of each blog only.
-    const blogsQuery = BLOGS_QUERY;
 
-    const blogsData = await sanityFetch({ query: blogsQuery });
-    return blogsData ?? [];
+    const blogsData = await sanityFetch({ query: BLOGS_QUERY });
+    return blogsData.data ?? [];
   } catch (error) {
     console.log("Error happened while getting the Blogs data!:", error);
   }
@@ -74,9 +74,10 @@ const getHotDeals = async () => {
     const hotdealsQuery = HOTDEALS_QUERY;
 
     const hotdealsData = await sanityFetch({ query: hotdealsQuery });
-    return hotdealsData ?? [];
+    return hotdealsData.data ?? [];
   } catch (error) {
     console.log("Error getting hot deals data:", error);
+    return [];
   }
 };
 
@@ -165,7 +166,7 @@ const getBlogCategories = async () => {
     const blogCategories = await sanityFetch({
       query: GETBLOGCATEGORIES_QUERY,
     });
-    
+
     return blogCategories.data ?? [];
   } catch (error) {
     console.log("Failed to get blog categories!", error);

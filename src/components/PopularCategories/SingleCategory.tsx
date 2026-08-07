@@ -41,9 +41,6 @@ const SingleCategory = ({ categoryData }: { categoryData: Category[] }) => {
                 </span>{" "}
                 this category
               </div>
-              <span className="text-sm text-shop-dark-green font-semibold">
-                Products: {category.productCount}
-              </span>
               <div className="bg-gray-300 w-full h-2 rounded-full">
                 <div className="w-1/2 bg-linear-to-r from-shop-light-green to-shop-dark-green h-2 rounded-full" />
               </div>

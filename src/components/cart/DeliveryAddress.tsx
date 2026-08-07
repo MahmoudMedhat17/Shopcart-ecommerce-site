@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Address, USERADDRESS_QUERY_RESULT } from "@/sanity.types";
+import { Address, USERADDRESS_QUERYResult } from "@/sanity.types";
 import { MapPin, Plus } from "lucide-react";
 import { client } from "@/src/sanity/lib/client";
 import { Label } from "@/src/components/ui/label";
@@ -13,7 +13,7 @@ import zustandStore from "@/src/store/zustandStore";
 const DeliveryAddress = () => {
   const [loading, setLoading] = useState(false);
   // Here we set 2 states one is to store the data coming from sanity inside it "address"
-  const [address, setAddress] = useState<USERADDRESS_QUERY_RESULT | null>(null);
+  const [address, setAddress] = useState<USERADDRESS_QUERYResult | null>(null);
   // And the other is to store the address that the user selects from the list of addresses "selectedAddress"
   // Replaced the state here with the same state but coming from zustandStore to use it in multiple components.
   // const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);

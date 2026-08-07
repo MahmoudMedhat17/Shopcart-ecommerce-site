@@ -10,7 +10,6 @@ import {
   DialogFooter,
 } from "@/src/components/ui/dialog";
 import { Check } from "lucide-react";
-// import { motion } from "framer-motion";
 
 const Reasons = () => {
   return (

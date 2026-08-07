@@ -9,7 +9,9 @@ import AddToFav from "@/src/components/AddToFav";
 
 const ProductsInWishlist = ({ product }: { product: Product }) => {
   const image = product.images ? urlFor(product.images[0]).url() : "";
-  const productCategory = product.categories?.[0]?.title || "No category";
+  const productCategory =
+    (product.categories?.[0] as { title?: string } | undefined)?.title ||
+    "No category";
   const productInStock = product.stock ?? 0;
 
   return (

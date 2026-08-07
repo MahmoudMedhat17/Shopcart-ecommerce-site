@@ -1,6 +1,6 @@
 "use client";
 
-import { USERORDERS_QUERY_RESULT } from "@/sanity.types";
+import { USERORDERS_QUERYResult } from "@/sanity.types";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import {
   Tooltip,
@@ -15,12 +15,12 @@ import OrderdetailDialog from "./OrderdetailDialog";
 import getDeleteOrders from "@/src/actions/deleteTheOrder";
 import { toast } from "react-hot-toast";
 
-const Orderscomponent = ({ orders }: { orders: USERORDERS_QUERY_RESULT }) => {
+const Orderscomponent = ({ orders }: { orders: USERORDERS_QUERYResult }) => {
   const [selectedOrder, setSelectedOrder] = useState<
-    USERORDERS_QUERY_RESULT[number] | null
+    USERORDERS_QUERYResult[number] | null
   >(null);
 
-  const handleOrder = (order: USERORDERS_QUERY_RESULT[number] | null) => {
+  const handleOrder = (order: USERORDERS_QUERYResult[number] | null) => {
     setSelectedOrder(order);
   };
 

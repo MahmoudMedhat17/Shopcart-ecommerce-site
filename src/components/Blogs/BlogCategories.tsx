@@ -11,9 +11,7 @@ const BlogCategories = async ({ slug }: { slug: string }) => {
     (await getBlogCategories()) || [];
   const otherBlogs = await getOtherBlogs(slug, 5);
 
-  // console.log(otherBlogs);
 
-  console.log(otherBlogs?.[0]?.slug?.current);
 
   const options = {
     year: "numeric",

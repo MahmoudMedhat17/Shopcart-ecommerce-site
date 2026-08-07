@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Blog } from "@/sanity.types";
+import type { BLOGS_QUERYResult } from "@/sanity.types";
 import Image from "next/image";
-import { Calendar, ArrowRight } from "lucide-react";
 import { Title } from "@/src/components/Text";
 import { urlFor } from "@/src/sanity/lib/image";
+import { Calendar, ArrowRight } from "lucide-react";
 
-const Blogs = ({ blogsData }: { blogsData: Blog[] }) => {
+const Blogs = ({ blogsData }: { blogsData: BLOGS_QUERYResult }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
       {blogsData.map((blog) => {

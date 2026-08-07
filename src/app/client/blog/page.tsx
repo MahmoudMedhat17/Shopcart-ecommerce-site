@@ -4,11 +4,11 @@ import { urlFor } from "@/src/sanity/lib/image";
 import { getAllBlogs } from "@/src/sanity/queries/query";
 import Image from "next/image";
 import Link from "next/link";
-import { GETALLBLOGS_QUERY_RESULT } from "@/sanity.types";
+import { GETALLBLOGS_QUERYResult } from "@/sanity.types";
 import { Calendar } from "lucide-react";
 
 const page = async () => {
-  const blogs: GETALLBLOGS_QUERY_RESULT = await getAllBlogs();
+  const blogs: GETALLBLOGS_QUERYResult = await getAllBlogs();
 
 
   return (

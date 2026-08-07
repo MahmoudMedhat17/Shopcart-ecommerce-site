@@ -6,11 +6,13 @@ import { Title } from "@/src/components/Text";
 import PriceView from "@/src/components/price/PriceView";
 import Addtocart from "@/src/components/Addtocart";
 import AddToFav from "@/src/components/AddToFav";
-import { Flame, Heart, StarIcon, Minus, Plus } from "lucide-react";
+import { Flame, StarIcon } from "lucide-react";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const image = product.images ? urlFor(product.images[0]).url() : "";
-  const productCategory = product.categories?.[0]?.title || "No category";
+  const productCategory =
+    (product.categories?.[0] as { title?: string } | undefined)?.title ||
+    "No category";
   const productInStock = product.stock ?? 0;
 
   return (
@@ -99,24 +101,6 @@ const ProductCard = ({ product }: { product: Product }) => {
           discountStyling="text-sm bg-red-200 text-red-500 px-1 rounded-md"
         />
         <Addtocart product={product} />
-        {/* Quantity */}
-        {/* <div className="flex items-center justify-between border-b border-gray-200">
-          <p className="text-sm text-gray-500">Quantity</p>
-          <p className="flex items-center gap-4">
-            <span className="hover:bg-gray-300 p-1 rounded-md hoverEffect cursor-pointer">
-              <Minus size={18} />
-            </span>
-            <span className="text-lg">1</span>
-            <span className="hover:bg-gray-300 p-1 rounded-md hoverEffect cursor-pointer">
-              <Plus size={18} />
-            </span>
-          </p>
-        </div> */}
-        {/* Subtotal */}
-        {/* <div className="flex items-center justify-between">
-          <p className="text-sm font-semibold">Subtotal</p>
-          <p>Price</p>
-        </div> */}
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 
-import { Address, USERADDRESS_QUERY_RESULT } from "@/sanity.types";
+import { Address, USERADDRESS_QUERYResult } from "@/sanity.types";
 import AddressFields, {
   AddressSchema,
 } from "@/src/components/cart/AddressFields";
@@ -23,9 +23,9 @@ const AddAddress = ({
 }: {
   isOpen: boolean;
   handlePanelClick: () => void;
-  address: USERADDRESS_QUERY_RESULT | null;
+  address: USERADDRESS_QUERYResult | null;
   setAddress: React.Dispatch<
-    React.SetStateAction<USERADDRESS_QUERY_RESULT | null>
+    React.SetStateAction<USERADDRESS_QUERYResult | null>
   >;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
@@ -57,7 +57,7 @@ const AddAddress = ({
       const newAddressWithUpdatedDefault = [
         newAddress,
         ...updateDefaultAddress,
-      ] as USERADDRESS_QUERY_RESULT;
+      ] as USERADDRESS_QUERYResult;
 
       // Here we set the new address to the list of addresses.
       setAddress(newAddressWithUpdatedDefault);
