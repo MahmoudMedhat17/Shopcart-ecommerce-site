@@ -1,6 +1,5 @@
-import { USERORDERS_QUERY_RESULT } from "@/sanity.types";
+import { USERORDERS_QUERYResult } from "@/sanity.types";
 import Image from "next/image";
-import PriceView from "@/src/components/price/PriceView";
 import {
   Dialog,
   DialogContent,
@@ -26,7 +25,7 @@ const OrderdetailDialog = ({
   isOpen,
   onClose,
 }: {
-  order: USERORDERS_QUERY_RESULT[number] | null;
+  order: USERORDERS_QUERYResult[number] | null;
   isOpen: boolean;
   onClose: () => void;
 }) => {
@@ -108,7 +107,7 @@ const OrderdetailDialog = ({
             ))}
           </TableBody>
         </Table>
-        <div className="flex justify-end items-end gap-[30px]">
+        <div className="flex justify-end items-end gap-7.5">
           <p className="font-semibold text-base">Total:</p>
           <p>${Math.trunc(order?.totalPrice || 0)}</p>
         </div>

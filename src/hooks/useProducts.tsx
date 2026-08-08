@@ -23,7 +23,8 @@ const useProducts = () => {
   "categories": categories[]-> {
     _id,
     title,
-    categories
+    categories,
+    "brandName": brand->string
   }
 }`;
 

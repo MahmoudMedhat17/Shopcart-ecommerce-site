@@ -38,15 +38,11 @@ const ProductInfo = ({ productInfo }: ProductInfoProps) => {
           <AccordionContent>
             <div className="flex justify-between items-center">
               <p>Brand:</p>
-              <p className="font-semibold">{productInfo.brand?.string}</p>
+              <p className="font-semibold">
+                {(productInfo.brand as { string?: string })?.string}
+              </p>
             </div>
           </AccordionContent>
-          {/* <AccordionContent>
-          <div className="flex justify-between items-center">
-            <p>Collection:</p>
-            <p className="font-semibold">lol</p>
-          </div>
-        </AccordionContent> */}
           <AccordionContent>
             <div className="flex justify-between items-center">
               <p>Type:</p>

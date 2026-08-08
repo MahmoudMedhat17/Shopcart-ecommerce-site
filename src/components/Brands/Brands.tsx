@@ -2,9 +2,9 @@ import Link from "next/link";
 import SingleBrand from "@/src/components/Brands/SingleBrand";
 import { Title, SubText } from "@/src/components/Text";
 import { MoveRight } from "lucide-react";
-import { Brand } from "@/sanity.types";
+import { BRANDS_QUERYResult } from "@/sanity.types";
 
-const Brands = ({ brandsData }: { brandsData: Brand[] }) => {
+const Brands = ({ brandsData }: { brandsData: BRANDS_QUERYResult }) => {
   return (
     <div className="py-12 flex flex-col items-center justify-center space-y-6">
       <div className="flex items-center  gap-2 sm:gap-4">

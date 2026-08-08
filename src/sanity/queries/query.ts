@@ -53,6 +53,7 @@ const getBrands = async () => {
     return brandsData;
   } catch (error) {
     console.log("Something went wrong!", error);
+    return [];
   }
 };
 

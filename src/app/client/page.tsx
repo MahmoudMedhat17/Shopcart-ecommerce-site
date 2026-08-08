@@ -6,17 +6,11 @@ import PopularCategories from "@/src/components/PopularCategories/PopularCategor
 import Brands from "@/src/components/Brands/Brands";
 import Whyus from "@/src/components/Whyus/Whyus";
 import LatestBlogs from "@/src/components/Blogs/LatestBlogs";
+import { BRANDS_QUERYResult } from "@/sanity.types";
 
 const Home = async () => {
   const cateData = await getCategories();
-  // console.log("Categories data:", cateData);
-
-  // Test
-  // console.log("PAGE EXECUTED");
-
-  const brandsData = await getBrands();
-
-  // console.log(brandsData);
+  const brandsData = (await getBrands()) as BRANDS_QUERYResult;
 
   return (
     // Container is a wrapper that contains children with custom styles that are applied to the children.
