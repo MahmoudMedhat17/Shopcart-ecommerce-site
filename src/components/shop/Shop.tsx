@@ -1,6 +1,6 @@
 "use client";
 
-import { BRANDS_QUERYResult, Category, Product } from "@/sanity.types";
+import { BRANDS_QUERYResult, Category } from "@/sanity.types";
 import { SubTitle, Title } from "@/src/components/Text";
 import Container from "@/src/components/Container";
 import CategoryList from "@/src/components/shop/CategoryList";
@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { client } from "@/src/sanity/lib/client";
 import { FILTEREDPRODUCTS_QUERY } from "@/src/sanity/queries";
+import { ALLPRODUCTS_QUERYResult } from "@/sanity.types";
 import LoadingProduct from "@/src/components/LoadingProduct";
 import NoProducts from "@/src/components/Products/NoProducts";
 import ProductCard from "@/src/components/Products/ProductCard";
@@ -18,7 +19,7 @@ import ScrollToTop from "@/src/lib/Scrolltotop";
 interface ShopProps {
   categories: Category[];
   brands: BRANDS_QUERYResult;
-  allProducts: Product[];
+  allProducts: ALLPRODUCTS_QUERYResult | null;
 }
 
 const Shop = ({ categories, brands, allProducts }: ShopProps) => {
@@ -27,7 +28,9 @@ const Shop = ({ categories, brands, allProducts }: ShopProps) => {
   // We can make here the params of the category so that when the user clicks on one of the categories it chooses it as a filter in the filteration page such as the brands.
   // const categoryParams = searchParams.get("category");
   const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useState(allProducts);
+  const [products, setProducts] = useState<ALLPRODUCTS_QUERYResult | null>(
+    allProducts,
+  );
   // Need to make the selectedCategory when selected by the user it filters the data according to that category from the cards of the categories in the main page.
   const [selectedCategory, setSelectedCategory] = useState<string | null>("");
   const [selectedBrand, setSelectedBrand] = useState<string | null>(
@@ -166,7 +169,7 @@ const Shop = ({ categories, brands, allProducts }: ShopProps) => {
           <div className="shadow-lg rounded-lg border border-shopLighterBg flex-1 p-4">
             <div className="flex items-center justify-between border-b">
               <Title className="text-lg text-darkColor">
-                {products.length} Product(s) Found
+                {products?.length || 0} Product(s) Found
               </Title>
               <SubTitle className="text-lightColor font-medium">
                 Showing all available products
@@ -175,11 +178,11 @@ const Shop = ({ categories, brands, allProducts }: ShopProps) => {
             {/* If loading then show LoadingProduct component if not then check if the products data exists then map through products data and show them with ProductCard component. If there's no products data then show NoProducts component. */}
             {loading ? (
               <LoadingProduct />
-            ) : products.length > 0 ? (
+            ) : products && products.length > 0 ? (
               <div className="grid max-[500px]:grid-cols-1 min-[501px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 mt-10">
-                {products.map((product) => (
-                  <div key={product._id}>
-                    <ProductCard product={product} />
+                {products.map((productItem) => (
+                  <div key={productItem._id}>
+                    <ProductCard product={productItem} />
                   </div>
                 ))}
               </div>

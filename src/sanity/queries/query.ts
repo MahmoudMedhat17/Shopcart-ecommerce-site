@@ -1,4 +1,3 @@
-import { Product } from "@/sanity.types";
 import { sanityFetch } from "../lib/live";
 import { client } from "@/src/sanity/lib/client";
 import {
@@ -120,6 +119,7 @@ const getAllProducts = async () => {
     return allProductsQuery.data ?? [];
   } catch (error) {
     console.log("Failed fetching All products data!:", error);
+    return [];
   }
 };
 
