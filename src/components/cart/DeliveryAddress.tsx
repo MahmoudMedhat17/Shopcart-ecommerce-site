@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Address, USERADDRESS_QUERYResult } from "@/sanity.types";
-import { MapPin, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { client } from "@/src/sanity/lib/client";
 import { Label } from "@/src/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";

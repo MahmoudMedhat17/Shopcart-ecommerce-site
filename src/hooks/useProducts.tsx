@@ -29,7 +29,9 @@ const useProducts = () => {
 }`;
 
   // Here is the params that will be passed when fetching data from sanity along with the query and we used the selectedCategory that contains the title values from categoryTypes and changed it to toLowerCase() so the data fetching work since the variant defined in sanity studio with lowerCase.
-  const params = { variant: selectedCategory.toLowerCase() };
+  const params: Record<string, unknown> = {
+    variant: selectedCategory.toLowerCase(),
+  };
 
   useEffect(() => {
     const fetchSanityData = async () => {
