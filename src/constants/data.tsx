@@ -454,3 +454,22 @@ export const addressTypes = [
   { title: "Office", value: "office" },
   { title: "Other", value: "other" },
 ];
+
+export const FAQS = [
+  {
+    ques: "What are your shipping policies?",
+    ans: "We offer free shipping on orders over $50 within the continental US. International shipping is available with additional charges.",
+  },
+  {
+    ques: "How can I track my order?",
+    ans: "Once your order ships, you'll receive a tracking number via email. You can also track orders in your account dashboard.",
+  },
+  {
+    ques: "What is your return policy?",
+    ans: "We accept returns within 30 days of purchase. Items must be unused and in original packaging for a full refund.",
+  },
+  {
+    ques: "Do you offer customer support?",
+    ans: "Yes! Our customer service team is available Monday-Friday 9AM-6PM EST via phone, email, or live chat.",
+  },
+];
